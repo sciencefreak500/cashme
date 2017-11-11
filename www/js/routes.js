@@ -27,6 +27,21 @@ angular.module('app.routes', ['ui.router'])
     controller: 'walletPageCtrl'
 })
 
+.state('settings',{
+  name: 'Settings',
+  url: '/settingsPage',
+    templateUrl: 'templates/settings.html',
+    controller: 'settingsPageCtrl'
+})
+
+.state('waiting',{
+  name: 'Waiting',
+  url: '/waitingPage',
+    templateUrl: 'templates/waiting.html',
+    controller: 'waitingPageCtrl'
+})
+
+
 
 $urlRouterProvider.otherwise('/loginPage')
 
