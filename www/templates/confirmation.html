@@ -1,0 +1,26 @@
+<ion-view title="waiting">
+    <ion-content>
+<div>
+
+<button ng-click="cancelRequest()">Cancel</button>
+
+<div class="centeredConfirm">
+	<h3>His/her rating:</h3>
+		<span>star</span><h3 style="font-weight: bold">{{other.rating}}/5</h3>
+
+	<h3>Your personal ATM is</h3>
+	<h3 style="font-weight: bold">0.5 miles away</h3>
+	<h3>It will be delivered to you location</h3>
+	</div>	
+
+<br><br>
+<div class="centeredConfirm">
+	<h3>$2.00</h3>
+	<h3>Total: $21.00</h3>
+</div>
+
+<button ng-click="submitToEscrow()">Submit</button>
+
+</div>
+</ion-content>
+</ion-view>

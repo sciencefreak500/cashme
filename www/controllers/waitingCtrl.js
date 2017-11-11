@@ -7,6 +7,7 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
   	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
 	    $scope.userID = user.uid;
+	    firebase.database().ref("Users").child($scope.userID).update({available: false});
 	    $timeout(function(){$scope.$apply();});
 	  }
 	});
@@ -15,6 +16,8 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 		console.log('entered?');
         amount = userMoney.getRequest();
         $scope.simplifyList();
+        firebase.database().ref("Users").child($scope.userID).update({available: false});
+        $scope.cancelShow = false;
       });
 
 	function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -34,6 +37,23 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
             return deg * (Math.PI / 180);
         }
 
+        function sendNotifies(withDist, num){
+        	try{
+        		firebase.database().ref('notify').child(withDist[num].info.uid).update({
+  				distance: withDist[num].distance,
+  				id: withDist[num].info.uid,
+  				rating: withDist[num].info.rating,
+  				displayName: withDist[num].info.displayName});
+	  			$timeout(function(){
+	  				console.log("after?");
+	  				sendNotifies(withDist, num+1);
+	  			},5000);
+	  			
+        	}catch(err){
+        		console.log("went too high perhaps", err);
+        	}
+  			
+        }
 
       $scope.simplifyList = function(){
 	  	var ref = firebase.database().ref("Users");
@@ -43,7 +63,7 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  	userData.$loaded().then(function(x){
 	  		console.log("user data loaded");
 	  		angular.forEach(userData,function(user){
-	  			if(amount <= user.wallet && user.uid != $scope.userID){
+	  			if(amount <= user.wallet && user.uid != $scope.userID && user.available == true){
 	  				validUsers.push(user);
 	  			}
 	  			if(user.uid == $scope.userID){
@@ -55,10 +75,16 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  			var dist = getDistanceFromLatLonInKm($scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
 	  			withDist.push({info:valid,distance:dist});
 	  		});
-	  		console.log("with dist", withDist);
-
+	  		withDist.sort(function(a,b){
+	  			return a['distance'] - b['distance'];
+	  		});
+	  		console.log("with dist and sort", withDist);
+	  		sendNotifies(withDist, 0);
+	  		$timeout(function(){
+	  			$scope.cancelShow = true;
+	  		},15000);
 	  	});
-      }
+      };
   	
   	
 

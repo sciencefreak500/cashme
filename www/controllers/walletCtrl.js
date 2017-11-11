@@ -14,6 +14,7 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
         $scope.money.request = snap.val().request;
         userMoney.setRequest(snap.val().request);
         userMoney.setWallet(snap.val().wallet);
+        firebase.database().ref("Users").child($scope.userID).update({available: true});
     });
       
 	    $timeout(function(){$scope.$apply();});
@@ -24,6 +25,18 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
       });
 	  }
 	});
+
+    $scope.$on('$ionicView.afterEnter', function () {
+    console.log('entered?');
+        navigator.geolocation.getCurrentPosition(function(position){
+        firebase.database().ref("Users").child($scope.userID).update({
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude});
+      });
+        firebase.database().ref("Users").child($scope.userID).update({available: true});
+      });
+
+    
 
   	$scope.requestCash = function(){
   		console.log("requesting cash");

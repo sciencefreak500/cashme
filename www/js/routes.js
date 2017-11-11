@@ -41,6 +41,13 @@ angular.module('app.routes', ['ui.router'])
     controller: 'waitingPageCtrl'
 })
 
+.state('confirmation',{
+  name: 'Confirmation',
+  url: '/confirmationPage',
+    templateUrl: 'templates/confirmation.html',
+    controller: 'confirmationPageCtrl'
+})
+
 
 
 $urlRouterProvider.otherwise('/loginPage')

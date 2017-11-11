@@ -41,3 +41,12 @@ input[type="number"]{
     text-align: center;
     color: #9CCC65;
 }
+
+.centeredConfirm{
+    color: #9CCC65;
+    text-align: center;
+}
+
+h3{
+    color: #9CCC65;
+}
