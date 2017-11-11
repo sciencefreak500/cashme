@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "642608123618",
+    "firebase_url": "https://cashme-1c9ee.firebaseio.com",
+    "project_id": "cashme-1c9ee",
+    "storage_bucket": "cashme-1c9ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642608123618:android:7341d14ac643596b",
+        "android_client_info": {
+          "package_name": "com.cashme.eoko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642608123618-0ukme3qia7g16h5rs1o3us3dqaglpd5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjs6oB-RR8LA7rBYTeuzrHGW5Q82c4lNM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,38 @@
 app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
 
   function ($scope, $state,$http,$timeout) {
-  	
+
+    //Get messaging token of the user
+    // window.FirebasePlugin.grantPermission();
+    $scope.$on('$ionicView.beforeEnter', function() {
+      firebase.auth().onAuthStateChanged(function(user){
+        userRef = firebase.database().ref('Users/'+user.uid);
+        window.FirebasePlugin.getToken(function(token) {
+              // save this server-side and use it to push notifications to this device
+              console.log("got the token", token);
+              userRef.update({
+                messageToken: token
+              });
+
+          }, function(error) {
+              console.error(error);
+          });
+
+          window.FirebasePlugin.onTokenRefresh(function(token) {
+              // save this server-side and use it to push notifications to this device
+              console.log("got the token", token);
+              userRef.update({
+                messageToken: token
+              });
+
+          }, function(error) {
+              console.error(error);
+          });
+      })
+
+    })
+
+
   	$scope.user = {displayName: '', photoURL: ''};
   	$scope.userID;
 
@@ -55,7 +86,7 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
   			var blob = b64toBlob(picture, 'image/jpg');
   			//+ $scope.userID + '.png'
   				//console.log("picture is", picture);
-		    	firebase.storage().ref('profiles').child($scope.userID + '.jpg').put(blob, 
+		    	firebase.storage().ref('profiles').child($scope.userID + '.jpg').put(blob,
 		    		{contentType: 'image/jpg'}).then(function(savedPic){
 		    		firebase.database().ref('Users').child($scope.userID).update({photoURL: savedPic.downloadURL});
 		    		$scope.user.photoURL = savedPic.downloadURL;
@@ -93,6 +124,6 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
   		});
   	};
 
-}	
+}
 
 ]);
