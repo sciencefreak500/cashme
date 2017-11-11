@@ -2,12 +2,14 @@ angular.module('app.services', [])
 
 
 
-.factory('userMoney', [function() {
+.factory('userMoney', ['$timeout',function($timeout) {
     var walletValue;
     var requestValue;
 
+    
     return{
     	getWallet: function(){
+
     		return walletValue;
     	},
     	getRequest: function(){

@@ -1,9 +1,13 @@
-<div>
+<ion-view title="settings">
+    <ion-content>
+
+<button style="float:right" ng-click="signOut()">Sign Out</button>
 <img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
 <h1>Setting page</h1>
 
 <input type="text" name="name" placeholder="Enter your Name" ng-model="user.displayName">
 
  <button ng-click="saveInfo()">Save Settings</button>
-	
-</div>
+
+</ion-content>
+</ion-view>

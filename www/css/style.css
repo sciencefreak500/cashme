@@ -31,4 +31,13 @@ input[type="number"]{
     width: 100px;
     height: 100px;
     margin: 0 auto;
+    background-image: url(/img/default-avatar.png);
+    background-size: cover;
+    background-position-y: center;
+}
+
+#findingATM{
+    margin-top: 20vh;
+    text-align: center;
+    color: #9CCC65;
 }

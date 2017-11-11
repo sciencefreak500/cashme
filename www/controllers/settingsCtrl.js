@@ -84,6 +84,15 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
   		});
   	};
 
+
+  	$scope.signOut = function(){
+  		console.log("signout");
+  		firebase.auth().signOut().then(function(success){
+  			console.log("out");
+  			$state.go('login');
+  		});
+  	};
+
 }	
 
 ]);
