@@ -20,6 +20,14 @@ angular.module('app.routes', ['ui.router'])
 })
 
 
+.state('wallet',{
+  name: 'Wallet',
+  url: '/walletPage',
+    templateUrl: 'templates/wallet.html',
+    controller: 'walletPageCtrl'
+})
+
+
 $urlRouterProvider.otherwise('/loginPage')
 
 });

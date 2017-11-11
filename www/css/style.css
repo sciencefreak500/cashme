@@ -1,1 +1,28 @@
 /* Empty. Add your own CSS if you like */
+.bar.bar-stable {
+    border-color: #9CCC65;
+    background-color: #9CCC65;
+    color:white;
+    height: 20vh;
+    padding: 10%;
+}
+
+
+.titleStyle{
+	padding: 2vh 10vw;
+}
+
+.has-header {
+    top: 20vh;
+}
+
+input[type="number"]{
+
+	text-align: center;
+    border-bottom: 1px solid #9CCC65;
+    font-size: 8vw;
+    font-weight: bolder;
+    color: #9CCC65;
+    width: 50vw;
+    margin: 0 auto;
+}

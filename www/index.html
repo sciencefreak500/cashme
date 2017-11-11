@@ -36,16 +36,20 @@
     <script src="js/firebase.init.js"></script>
     <script src="js/angularfire.min.js"></script>
     <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
 
     <!-- all controllers -->
     <script src="controllers/loginCtrl.js"></script>
+    <script src="controllers/walletCtrl.js"></script>
 
   </head>
   <body ng-app="app">
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">cashme</h1>
+        <h1 class="title titleStyle" style="height:11vh">
+          <img src="img/logo.svg">
+        </h1>
       </ion-header-bar>
       <ion-content>
         <ui-view></ui-view>
