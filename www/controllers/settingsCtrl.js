@@ -2,11 +2,12 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
 
   function ($scope, $state,$http,$timeout) {
 
-    //Get messaging token of the user
-    // window.FirebasePlugin.grantPermission();
     $scope.$on('$ionicView.beforeEnter', function() {
       firebase.auth().onAuthStateChanged(function(user){
         userRef = firebase.database().ref('Users/'+user.uid);
+
+        //--------------------------Get messaging token
+        window.FirebasePlugin.grantPermission();
         window.FirebasePlugin.getToken(function(token) {
               // save this server-side and use it to push notifications to this device
               console.log("got the token", token);
@@ -17,7 +18,6 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
           }, function(error) {
               console.error(error);
           });
-
           window.FirebasePlugin.onTokenRefresh(function(token) {
               // save this server-side and use it to push notifications to this device
               console.log("got the token", token);
