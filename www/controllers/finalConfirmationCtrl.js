@@ -1,6 +1,6 @@
-app.controller('finalConfirmationCtrl', ['$scope', '$state',
-  function($scope, $state){
-    
+app.controller('finalConfirmationCtrl', ['$scope', '$state', '$localStorage',
+  function($scope, $state, $localStorage){
+
 
 
   }])
