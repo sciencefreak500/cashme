@@ -48,6 +48,20 @@ angular.module('app.routes', ['ui.router'])
     controller: 'confirmationPageCtrl'
 })
 
+.state('finalConfirmation', {
+  name: 'finalConfirmation',
+  url: '/finalConfirmationPage',
+    templateUrl: 'templates/finalConfirmation.html',
+    controller: 'finalConfirmationCtrl'
+})
+
+.state('feedback', {
+  name: 'feedback',
+  url: '/feedbackPage',
+    templateUrl: 'templates/feedback.html',
+    controller: 'feedbackCtrl'
+})
+
 
 
 $urlRouterProvider.otherwise('/loginPage')

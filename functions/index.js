@@ -3,12 +3,12 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 //-----------------Send givers notifications whenever somebody nears them needs some money
-exports.sendGiverNotification = functions.database.ref('/notify/{uid}').onCreate(event=> {
-  const uid = event.params.uid;
+exports.sendGiverNotification = functions.database.ref('/notify/{randomID}').onCreate(event=> {
+
+
+  const data = event.data.val();
+  const uid = data.giverID;
   const userPromise = admin.database().ref(`Users/${uid}`).once('value');
-  console.log("THE EVENT", event);
-  console.log("THE NEW DATA", event.data);
-  console.log("THE NEW DATA", event.DeltaSnapshot);
 
   Promise.all([userPromise]).then(res=> {
     const userData = res[0].val();
@@ -20,11 +20,9 @@ exports.sendGiverNotification = functions.database.ref('/notify/{uid}').onCreate
         title: '¢ashMe',
         body: 'Time to make money! Someone near you needs cash!',
         sound: 'default'
-      },
-      data: {
-        //@Michael: input whatever data you need in here
       }
     }
+    payload.data = data;
 
     admin.messaging().sendToDevice(messageToken, payload)
       .then(function(response){
