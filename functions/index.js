@@ -6,6 +6,10 @@ admin.initializeApp(functions.config().firebase);
 exports.sendGiverNotification = functions.database.ref('/notify/{uid}').onCreate(event=> {
   const uid = event.params.uid;
   const userPromise = admin.database().ref(`Users/${uid}`).once('value');
+  console.log("THE EVENT", event);
+  console.log("THE NEW DATA", event.data);
+  console.log("THE NEW DATA", event.DeltaSnapshot);
+
   Promise.all([userPromise]).then(res=> {
     const userData = res[0].val();
     const messageToken = userData.messageToken;

@@ -6,7 +6,7 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
       firebase.auth().onAuthStateChanged(function(user){
         userRef = firebase.database().ref('Users/'+user.uid);
 
-        //--------------------------Get messaging token
+        //--------------------------Get messaging token------------------------------
         window.FirebasePlugin.grantPermission();
         window.FirebasePlugin.getToken(function(token) {
               // save this server-side and use it to push notifications to this device
@@ -28,6 +28,13 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
           }, function(error) {
               console.error(error);
           });
+
+          window.FirebasePlugin.onNotificationOpen(function(notification){
+            // HANDLE NOTIFICATION OPENING HERE
+
+          }, function(error){
+            console.log("error receiving notification", error);
+          })
       })
 
     })
