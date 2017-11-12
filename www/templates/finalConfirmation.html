@@ -1,23 +1,26 @@
 <ion-view title="finalConfirmation">
   <ion-content>
-    <div>Cancel</div>
+    <div ng-click="cancel()">Cancel</div>
     <br />
-    <img /> Requester photo
-    <img /> Giver photo
+    <!-- Request photo -->
+    <img ng-src="ticket.requestPhoto"/>
+
+    <!-- Giver photo -->
+    <img ng-src="ticket.giverPhoto"/>
     <br />
 
-    <button>Confirm</button>
+    <button ng-click="confirm()">¢onfirm</button>
 
     <div>
-      Fee:
+      Fee: {{ticket.fee}
     </div>
 
     <div>
-      Total:
+      Total: {{ticket.total}}
     </div>
 
-    <button>Report</button>
-    <button>Alert</button>
+    <button ng-click="report()">Report</button>
+    <a href="tel:911" >Alert</a>
 
   </ion-content>
 
