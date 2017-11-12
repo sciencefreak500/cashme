@@ -29,15 +29,9 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
               console.error(error);
           });
 
-          window.FirebasePlugin.onNotificationOpen(function(notification){
-            // HANDLE NOTIFICATION OPENING HERE
+      });
 
-          }, function(error){
-            console.log("error receiving notification", error);
-          })
-      })
-
-    })
+    });
 
 
   	$scope.user = {displayName: '', photoURL: ''};

@@ -8,6 +8,9 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  if (user) {
 	    $scope.userID = user.uid;
 	    firebase.database().ref("Users").child($scope.userID).update({available: false});
+	    firebase.database().ref("Users").child($scope.userID).once('value').then(function(snap){
+	    	$scope.userInfo = snap.val();
+	    });
 	    $timeout(function(){$scope.$apply();});
 	  }
 	});
@@ -37,16 +40,18 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
             return deg * (Math.PI / 180);
         }
 
-        function sendNotifies(withDist, num){
+        function sendNotifies(withDist, num, ticketNum){
         	try{
-        		firebase.database().ref('notify').child(withDist[num].info.uid).update({
-  				distance: withDist[num].distance,
-  				id: withDist[num].info.uid,
-  				rating: withDist[num].info.rating,
-  				displayName: withDist[num].info.displayName});
+        		firebase.database().ref('notify').push({  //uppermost key = the giver
+  				distance: withDist[num].distance, //dist between
+  				giverID: withDist[num].info.uid,
+  				requestID: $scope.userID,  
+  				rating: $scope.userInfo.rating,
+  				displayName: $scope.userInfo.displayName,
+  				amount: $scope.userInfo.request});
 	  			$timeout(function(){
 	  				console.log("after?");
-	  				sendNotifies(withDist, num+1);
+	  				sendNotifies(withDist, num+1, ticketNum);
 	  			},5000);
 	  			
         	}catch(err){
@@ -79,7 +84,17 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  			return a['distance'] - b['distance'];
 	  		});
 	  		console.log("with dist and sort", withDist);
-	  		sendNotifies(withDist, 0);
+	  		var ticket = {
+	  			amount: $scope.userInfo.request,
+	  			isOpen: true,
+	  			requestID: $scope.userInfo.uid,
+	  			requestPhoto: $scope.userInfo.photoURL
+	  		};
+	  		firebase.database().ref('ticket').push(ticket).then(function(x){
+	  			console.log("ticket made",x);
+	  			sendNotifies(withDist, 0, x.key);
+	  		});
+	  		
 	  		$timeout(function(){
 	  			$scope.cancelShow = true;
 	  		},15000);

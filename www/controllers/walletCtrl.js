@@ -1,6 +1,6 @@
-app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeout',
+app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeout','$ionicPlatform','$ionicPopup',
 
-  function ($scope, $state,$http,userMoney,$timeout) {
+  function ($scope, $state,$http,userMoney,$timeout,$ionicPlatform,$ionicPopup) {
   	console.log("wallet page");
   	
     $scope.money = {wallet: 0, request: 0};
@@ -10,11 +10,13 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
 	    $scope.userID = user.uid;
 	    $scope.user = {displayName: user.displayName, photoURL: user.photoURL};
       firebase.database().ref('Users').child(user.uid).once('value').then(function(snap){
+        $scope.myRating = snap.val().rating;
         $scope.money.wallet = snap.val().wallet;
         $scope.money.request = snap.val().request;
         userMoney.setRequest(snap.val().request);
         userMoney.setWallet(snap.val().wallet);
         firebase.database().ref("Users").child($scope.userID).update({available: true});
+
     });
       
 	    $timeout(function(){$scope.$apply();});
@@ -34,7 +36,55 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
           latitude: position.coords.latitude});
       });
         firebase.database().ref("Users").child($scope.userID).update({available: true});
+
+        
       });
+
+
+    $scope.$on('$ionicView.beforeEnter', function () {
+
+              
+        window.FirebasePlugin.grantPermission();
+        window.FirebasePlugin.onNotificationOpen(function(notification) {
+              console.log(notification);
+              $scope.notification = notification;
+
+              var myPopup = $ionicPopup.show({
+               templateUrl: '/templates/popup/requestPopup.html',
+               title: '<h3>Cashme Alert</h3>',
+               subTitle: '<h4>'+ $scope.notification.displayName+' needs your service</h4>',
+               scope: $scope,
+            
+               buttons: [
+                  { text: 'Cancel' }, {
+                     text: '<b>Accept</b>',
+                     type: 'button-positive',
+                     onTap: function(e) {
+                        console.log('what is e',e );
+                        firebase.database().ref('confirm').push({
+                          giverPhoto: $scope.user.photoURL,
+                          giverID: $scope.userID,
+                          displayName: $scope.user.displayName,
+                          distance: $scope.notification.distance,
+                          requestID: $scope.notification.requestID,
+                          rating: $scope.myRating
+                        });
+                        navigator.geolocation.getCurrentPosition(function(position){
+                        firebase.database().ref("Users").child($scope.userID).update({
+                          longitude: position.coords.longitude,
+                          latitude: position.coords.latitude});
+                     });
+                  }
+                }
+               ]
+            });
+              
+
+          }, function(error) {
+              console.error(error);
+          });
+        
+    });
 
     
 

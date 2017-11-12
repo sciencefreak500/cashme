@@ -1,0 +1,6 @@
+<div class="requestPopup">
+	<h4><span>star</span>{{notification.rating}}/5</h4>
+	<h4 ng-if="notification.distance >= 0.1">{{notification.distance | number:1}} miles away</h4>
+	<h4 ng-if="notification.distance < 0.1">{{notification.distance * 5280 | number:1}} feet away</h4>
+	<h4>He needs {{notification.amount}} dollars</h4>
+</div>
