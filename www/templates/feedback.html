@@ -1,5 +1,12 @@
 <ion-view>
   <ion-content>
+    <img />
+
+    <div>
+      {{other.rating}}
+      <rating-stars ng-model="rating.rate" max="rating.max"></rating-stars>
+    </div>
+    <button ng-click="submit()">Submit</button>
 
 
   </ion-content>
