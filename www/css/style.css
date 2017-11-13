@@ -86,6 +86,18 @@ input[type="email"]::placeholder, input[type="password"]::placeholder{
     margin-top: -15vh;
 }
 
+@media all and (max-device-width: 412px){
+    .button-clear.button-clear.eoko-sign-out-button{
+        margin-top: -16vh;
+    }
+}
+
+@media only screen and (max-device-width: 360px){
+    .button-clear.button-clear.eoko-sign-out-button{
+        margin-top: -18vh;
+    }
+}
+
 .profileImg{
     background-image: url(/img/default-avatar.png);
     background-size: cover;
