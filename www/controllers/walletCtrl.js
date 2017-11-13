@@ -1,6 +1,6 @@
-app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeout','$ionicPlatform','$ionicPopup',
+app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeout','$ionicPlatform','$ionicPopup','myUser',
 
-  function ($scope, $state,$http,userMoney,$timeout,$ionicPlatform,$ionicPopup) {
+  function ($scope, $state,$http,userMoney,$timeout,$ionicPlatform,$ionicPopup,myUser) {
   	console.log("wallet page");
   	
     $scope.money = {wallet: 0, request: 0};

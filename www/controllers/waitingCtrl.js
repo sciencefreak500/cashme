@@ -1,6 +1,6 @@
-app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','userMoney',
+app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','userMoney','myUser',
 
-  function ($scope, $state,$http,$timeout,$firebaseArray,userMoney) {
+  function ($scope, $state,$http,$timeout,$firebaseArray,userMoney,myUser) {
   	
     var amount;
 
@@ -8,9 +8,7 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  if (user) {
 	    $scope.userID = user.uid;
 	    firebase.database().ref("Users").child($scope.userID).update({available: false});
-	    firebase.database().ref("Users").child($scope.userID).once('value').then(function(snap){
-	    	$scope.userInfo = snap.val();
-	    });
+	    
 	    $timeout(function(){$scope.$apply();});
 	  }
 	});
@@ -46,9 +44,9 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
   				distance: withDist[num].distance, //dist between
   				giverID: withDist[num].info.uid,
   				requestID: $scope.userID,  
-  				rating: $scope.userInfo.rating,
-  				displayName: $scope.userInfo.displayName,
-  				amount: $scope.userInfo.request});
+  				rating: myUser.getData().rating,
+  				displayName: myUser.getData().displayName,
+  				amount: myUser.getData().request});
 	  			$timeout(function(){
 	  				console.log("after?");
 	  				sendNotifies(withDist, num+1, ticketNum);
@@ -85,10 +83,10 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  		});
 	  		console.log("with dist and sort", withDist);
 	  		var ticket = {
-	  			amount: $scope.userInfo.request,
+	  			amount: myUser.getData().request,
 	  			isOpen: true,
-	  			requestID: $scope.userInfo.uid,
-	  			requestPhoto: $scope.userInfo.photoURL
+	  			requestID: myUser.getData().uid,
+	  			requestPhoto: myUser.getData().photoURL
 	  		};
 	  		firebase.database().ref('ticket').push(ticket).then(function(x){
 	  			console.log("ticket made",x);
