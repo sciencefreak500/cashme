@@ -1,23 +1,38 @@
 <ion-view title="wallet">
-    <ion-content>
-<div>
-<a ui-sref="settings">
-  <img class="profileImg" ng-src="{{user.photoURL}}">
-</a>
 
-  <div>
-  	<h3>My Wallet</h3>
-  	<span>$</span><input ng-model="money.wallet" class="cashInput" type="number" name="wallet">
-  </div>
+  <ion-content scroll="false">
+    <!-- Header Logo -->
+    <div class="titleStyle">
+        <img src="img/logo.svg">
+    </div>
 
-  <div>
-  	<h3>My Request</h3>
-  	<span>$</span><input ng-model="money.request" class="cashInput" type="number" name="request">
-  	<button ng-click="requestCash()">Next</button>
-  </div>
+    <!-- Profile Picture -->
+    <div style="display: block; text-align: center;">
+      <a ui-sref="settings">
+        <img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
+      </a>
+    </div>
 
+    <div class="container">
+      
+      <div>
+        <label class="item item-input item-floating-label">
+            <span class="input-label eoko-wallet-input-label">My Wallet</span>
+            <input name="wallet" ng-model="money.wallet" type="number" placeholder="How much do you have in your wallet?">
+        </label>
+      </div>
 
-	
-</div>
-</ion-content>
+      <div>
+        <label class="item item-input item-floating-label">
+            <span class="input-label eoko-wallet-input-label">My Request</span>
+            <input name="request" ng-model="money.request" type="number" placeholder="How much do you want to request?">
+        </label>
+      </div>
+      
+      <br>
+      <button class="button button-block eoko-button" ng-click="requestCash()">Next</button>
+
+    </div>
+
+  </ion-content>
 </ion-view>

@@ -1,41 +1,3 @@
-/* Empty. Add your own CSS if you like */
-.bar.bar-stable {
-    border-color: #9CCC65;
-    background-color: #9CCC65;
-    color:white;
-    height: 20vh;
-    padding: 10%;
-}
-
-
-.titleStyle{
-	padding: 2vh 10vw;
-}
-
-.has-header {
-    top: 20vh;
-}
-
-input[type="number"]{
-
-	text-align: center;
-    border-bottom: 1px solid #9CCC65;
-    font-size: 8vw;
-    font-weight: bolder;
-    color: #9CCC65;
-    width: 50vw;
-    margin: 0 auto;
-}
-
-.profileImg{
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    background-image: url(/img/default-avatar.png);
-    background-size: cover;
-    background-position-y: center;
-}
-
 #findingATM{
     margin-top: 20vh;
     text-align: center;
@@ -47,11 +9,156 @@ input[type="number"]{
     text-align: center;
 }
 
-h3{
-    color: #9CCC65;
+
+/*---------------- ELEMENT ----------------------*/
+.button{
+    font-family: "Usual-Thin", "Usual", sans-serif;
 }
 
-.requestPopup{
+
+
+
+/*---------------- INDEX.HTML ----------------------*/
+.bar.bar-stable {
+    border: none;
+    border-color: #9CCC65;
+    background-color: #9CCC65;
+    color:white;
+    /* height: 20vh; */
+}
+
+.titleStyle{
+    background-color: #9CCC65;
+    height: 20vh;
+    padding: 4vh 10vw;
+}
+
+.has-header {
+    top: 0;
+}
+
+
+
+/*---------------- LOGIN.HTML ----------------------*/
+.container{
+    margin: 6vw;
+}
+
+.item{
+    border: none;
+}
+
+.input-label.eoko-login-input-label{
+    font-family: "Usual-Bold", "Usual", sans-serif;
+    color: white;
+    letter-spacing: 1.5px;
+}
+
+input[type="email"], input[type="password"]{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 20px;
+    color: white;
+    letter-spacing: 2px;
+}
+
+input[type="email"]::placeholder, input[type="password"]::placeholder{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    color: white;
+}
+
+.eoko-login-button{
+    background-color: white;
+    color: #9CCC65;
+    font-size: 20px;
+}
+
+.button:hover{
+    color:#9CCC65;
+}
+
+
+
+/*---------------- SETTING.HTML ----------------------*/
+.button-clear.button-clear.eoko-sign-out-button{
+    color: white;
+    float: right;
+    position: relative;
+    margin-top: -15vh;
+}
+
+@media all and (max-device-width: 412px){
+    .button-clear.button-clear.eoko-sign-out-button{
+        margin-top: -16vh;
+    }
+}
+
+@media only screen and (max-device-width: 360px){
+    .button-clear.button-clear.eoko-sign-out-button{
+        margin-top: -18vh;
+    }
+}
+
+.profileImg{
+    background-image: url(/img/default-avatar.png);
+    background-size: cover;
+    background-position-y: center;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    margin-top: -36px;
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+}
+
+.eoko-button{
+    background-color: #9CCC65;
+    color: white;
+    font-size: 20px;
+}
+
+.input-label.eoko-setting-input-label{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    color: #9CCC65;
+    letter-spacing: 1.5px;
+}
+
+input[type="text"]{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 20px;
+    color: #9CCC65;
+    letter-spacing: 2px;
+}
+
+
+
+/*---------------- WALLET.HTML ----------------------*/
+.input-label.eoko-wallet-input-label{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 5vw;
+    color: #9CCC65;
+    letter-spacing: 1.5px;
+}
+
+input[type="number"]{ 
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 9vw;
+    font-weight: bolder;
+    color: #9CCC65;
+    letter-spacing: 2px;
     text-align: center;
-    
+    border-bottom: 1px solid #9CCC65;
+    width: 75vw;
+    height: 10vh;
+    margin: 0 auto;
+}
+
+input[type="number"]::placeholder{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 4vw;
+    white-space:pre-line;  
+    position:relative;
+    top:-7px;
+    text-align: center;
+>>>>>>> baobaowow!
 }
