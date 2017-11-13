@@ -1,6 +1,6 @@
-app.controller('loginPageCtrl', ['$scope','$state','$http',
+app.controller('loginPageCtrl', ['$scope','$state','$http','$timeout',
 
-  function ($scope, $state,$http) {
+  function ($scope, $state,$http,$timeout) {
   	console.log("were good now");
 
   	$scope.user = {email:"", password:""};
@@ -12,7 +12,7 @@ app.controller('loginPageCtrl', ['$scope','$state','$http',
 	  }
 	});
 
-
+    $scope.error = {message:""};
   	$scope.loginUser = function(){
   		console.log("login user");
   		firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.password).then(function(user){
@@ -27,13 +27,21 @@ app.controller('loginPageCtrl', ['$scope','$state','$http',
   			});
 
   		}).catch(function(error){
-  			console.log("error", error.code);
+  			console.log("error", error);
   			if(error.code == "auth/email-already-in-use"){
   				firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.password).then(function(user){
   					console.log("success",user);
   					$state.go('settings');
-  				});
+  				}).catch(function(err){
+            console.log("trying to sign-in,", err.message);
+            $scope.error.message = err.message;
+            $timeout(function(){$scope.$apply();});
+          });
   			}
+        else{
+          $scope.error.message = error.message;
+        }
+        
   		});
   	};
 

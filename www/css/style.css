@@ -160,5 +160,11 @@ input[type="number"]::placeholder{
     position:relative;
     top:-7px;
     text-align: center;
->>>>>>> baobaowow!
+}
+
+.errorMessage{
+    background-color: #ff0039; 
+    color: white;
+    text-align: center;
+    padding: 2vw;
 }

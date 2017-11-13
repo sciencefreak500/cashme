@@ -19,6 +19,30 @@ angular.module('app.services', [])
   }])
 
 
+.factory('myUser', [function() {
+    var userInfo;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        firebase.database().ref("Users").child(user.uid).once('value').then(function(snap){
+            userInfo = snap.val();
+        });
+        }
+    });
+
+
+    
+    return{
+        getData: function(){
+
+            return userInfo;
+        }
+    };
+
+  }])
+
+
+
+
 .factory('userMoney', ['$timeout',function($timeout) {
     var walletValue;
     var requestValue;
