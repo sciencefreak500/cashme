@@ -1,24 +1,5 @@
-/* Empty. Add your own CSS if you like */
-.bar.bar-stable {
-    border-color: #9CCC65;
-    background-color: #9CCC65;
-    color:white;
-    height: 20vh;
-    padding: 10%;
-}
-
-
-.titleStyle{
-	padding: 2vh 10vw;
-}
-
-.has-header {
-    top: 20vh;
-}
-
-input[type="number"]{
-
-	text-align: center;
+input[type="number"]{ 
+    text-align: center;
     border-bottom: 1px solid #9CCC65;
     font-size: 8vw;
     font-weight: bolder;
@@ -49,4 +30,61 @@ input[type="number"]{
 
 h3{
     color: #9CCC65;
+}
+
+
+/*---------------- INDEX.HTML ----------------------*/
+.bar.bar-stable {
+    border: none;
+    border-color: #9CCC65;
+    background-color: #9CCC65;
+    color:white;
+    height: 20vh;
+    padding: 10%;
+}
+
+.titleStyle{
+	padding: 4vh 10vw;
+}
+
+.has-header {
+    top: 20vh;
+}
+
+/*---------------- LOGIN.HTML ----------------------*/
+.form-container{
+    margin: 6vw;
+}
+
+.item{
+    border: none;
+}
+
+.input-label{
+    font-family: "Usual-Bold", "Usual", sans-serif;
+    color: white;
+    letter-spacing: 1.5px;
+}
+
+input[type="email"], input[type="password"]{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 20px;
+    color: white;
+    letter-spacing: 2px;
+}
+
+input[type="email"]::placeholder, input[type="password"]::placeholder{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    color: white;
+}
+
+.eoko-login-button{
+    background-color: white;
+    color: #9CCC65;
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 20px;
+}
+
+.button:hover{
+    color:#9CCC65;
 }
