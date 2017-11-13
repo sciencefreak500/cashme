@@ -1,13 +1,19 @@
 <ion-view title="login">
-  <ion-content style="background-color: #9CCC65;" scroll="false">
-		<form class="form-container">
+  	<ion-content style="background-color: #9CCC65;" scroll="false">
+		
+		 <!-- Header Logo -->
+		<div class="titleStyle">
+			<img src="img/logo.svg">
+		</div>
+
+		<form class="container">
 			<div class="list">
 	  		<label class="item item-input item-floating-label">
-	    		<span class="input-label">Email</span>
+	    		<span class="input-label eoko-login-input-label">Email</span>
 	    		<input ng-model="user.email" type="email" placeholder="Email">
 	  		</label>
 				<label class="item item-input item-floating-label">
-					<span class="input-label">Password</span>
+					<span class="input-label eoko-login-input-label">Password</span>
 					<input ng-model="user.password" type="password" placeholder="Password">
 				</label>
 			</div>

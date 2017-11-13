@@ -1,13 +1,33 @@
 <ion-view title="settings">
-    <ion-content>
+    <ion-content scroll="false">
 
-<button style="float:right" ng-click="signOut()">Sign Out</button>
-<img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
-<h1 ui-sref="finalConfirmation">Setting page</h1>
+        <!-- Header Logo -->
+        <div class="titleStyle">
+            <img src="img/logo.svg">
+        </div>
 
-<input type="text" name="name" placeholder="Enter your Name" ng-model="user.displayName">
+        <!-- Profile Picture -->
+        <div style="display: block; text-align: center;">
+            <img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
+        </div>
+        
+        <!-- Sign Out Button -->
+        <button class="button button-clear eoko-sign-out-button" ng-click="signOut()">
+            Sign Out
+        </button>
+        
 
- <button ng-click="saveInfo()">Save Settings</button>
+        <div class="container">
+            <!-- <h1 ui-sref="finalConfirmation">Setting page</h1> -->
 
-</ion-content>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Enter your name</span>
+                <input name="name" ng-model="user.displayName" type="text" placeholder="Enter your name">
+            </label>
+            <br>
+            <button class="button button-block eoko-button" ng-click="saveInfo()">Save</button>
+        </div>
+        
+    </ion-content>
+
 </ion-view>

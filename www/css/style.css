@@ -8,15 +8,6 @@ input[type="number"]{
     margin: 0 auto;
 }
 
-.profileImg{
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    background-image: url(/img/default-avatar.png);
-    background-size: cover;
-    background-position-y: center;
-}
-
 #findingATM{
     margin-top: 20vh;
     text-align: center;
@@ -33,26 +24,37 @@ h3{
 }
 
 
+/*---------------- ELEMENT ----------------------*/
+.button{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+}
+
+
+
+
 /*---------------- INDEX.HTML ----------------------*/
 .bar.bar-stable {
     border: none;
     border-color: #9CCC65;
     background-color: #9CCC65;
     color:white;
-    height: 20vh;
-    padding: 10%;
+    /* height: 20vh; */
 }
 
 .titleStyle{
-	padding: 4vh 10vw;
+    background-color: #9CCC65;
+    height: 20vh;
+    padding: 4vh 10vw;
 }
 
 .has-header {
-    top: 20vh;
+    top: 0;
 }
 
+
+
 /*---------------- LOGIN.HTML ----------------------*/
-.form-container{
+.container{
     margin: 6vw;
 }
 
@@ -60,7 +62,7 @@ h3{
     border: none;
 }
 
-.input-label{
+.input-label.eoko-login-input-label{
     font-family: "Usual-Bold", "Usual", sans-serif;
     color: white;
     letter-spacing: 1.5px;
@@ -81,10 +83,51 @@ input[type="email"]::placeholder, input[type="password"]::placeholder{
 .eoko-login-button{
     background-color: white;
     color: #9CCC65;
-    font-family: "Usual-Thin", "Usual", sans-serif;
     font-size: 20px;
 }
 
 .button:hover{
     color:#9CCC65;
+}
+
+
+
+/*---------------- SETTING.HTML ----------------------*/
+.button-clear.button-clear.eoko-sign-out-button{
+    color: white;
+    float: right;
+    position: relative;
+    margin-top: -15vh;
+}
+
+.profileImg{
+    background-image: url(/img/default-avatar.png);
+    background-size: cover;
+    background-position-y: center;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    margin-top: -36px;
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+}
+
+.eoko-button{
+    background-color: #9CCC65;
+    color: white;
+    font-size: 20px;
+}
+
+.input-label{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    color: #9CCC65;
+    letter-spacing: 1.5px;
+}
+
+input[type="text"]{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 20px;
+    color: #9CCC65;
+    letter-spacing: 2px;
 }
