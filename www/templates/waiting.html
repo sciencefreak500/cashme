@@ -1,12 +1,16 @@
 <ion-view title="waiting">
-    <ion-content>
-<div>
+    <ion-content scroll="false">
+        <!-- Header Logo -->
+        <div class="titleStyle">
+            <img src="img/logo.svg">
+        </div>
+        
+        <button class="button button-clear eoko-cancel-button" ng-if="cancelShow">
+            Cancel
+        </button>
 
-
-<h1 id="findingATM">Looking for your personal ATM</h1>
-
-<button ng-if="cancelShow">Cancel</button>
-	
-</div>
-</ion-content>
+        <div class="container" style="margin-top: 20vh;">
+            <h1 class="eoko-h1">Looking for your personal ATM...</h1>
+        </div>
+    </ion-content>
 </ion-view>

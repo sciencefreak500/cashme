@@ -1,20 +1,20 @@
-#findingATM{
-    margin-top: 20vh;
-    text-align: center;
-    color: #9CCC65;
-}
-
 .centeredConfirm{
     color: #9CCC65;
     text-align: center;
 }
 
 
-/*---------------- ELEMENT ----------------------*/
+/*---------------- ELEMENTs ----------------------*/
 .button{
     font-family: "Usual-Thin", "Usual", sans-serif;
 }
 
+.errorMessage{
+    background-color: #ff0039; 
+    color: white;
+    text-align: center;
+    padding: 2vw;
+}
 
 
 
@@ -86,18 +86,6 @@ input[type="email"]::placeholder, input[type="password"]::placeholder{
     margin-top: -15vh;
 }
 
-@media all and (max-device-width: 412px){
-    .button-clear.button-clear.eoko-sign-out-button{
-        margin-top: -16vh;
-    }
-}
-
-@media only screen and (max-device-width: 360px){
-    .button-clear.button-clear.eoko-sign-out-button{
-        margin-top: -18vh;
-    }
-}
-
 .profileImg{
     background-image: url(/img/default-avatar.png);
     background-size: cover;
@@ -162,9 +150,37 @@ input[type="number"]::placeholder{
     text-align: center;
 }
 
-.errorMessage{
-    background-color: #ff0039; 
-    color: white;
+
+/*---------------- WAITING.HTML ----------------------*/
+.eoko-h1{
     text-align: center;
-    padding: 2vw;
+    color: #9CCC65;
+}
+
+.button.button-clear.eoko-cancel-button{
+    color: white;
+    float: right;
+    position: relative;
+    margin-top: -6vh;
+    margin-right: 2vw;
+}
+
+
+/*---------------- RESPONSIVE STUFF ----------------------*/
+@media all and (max-device-width: 412px){
+    .button-clear.button-clear.eoko-sign-out-button{
+        margin-top: -16vh;
+    }
+    .button.button-clear.eoko-cancel-button{
+        margin-top: -6vh;   
+    }
+}
+
+@media only screen and (max-device-width: 360px){
+    .button-clear.button-clear.eoko-sign-out-button{
+        margin-top: -18vh;
+    }
+    .button.button-clear.eoko-cancel-button{
+        margin-top: -7vh;   
+    }
 }
