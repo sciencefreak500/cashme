@@ -24,15 +24,19 @@ exports.sendGiverNotification = functions.database.ref('/notify/{randomID}').onC
     }
     payload.data = data;
 
-    admin.messaging().sendToDevice(messageToken, payload)
-      .then(function(response){
-        console.log("Successfully sent message!");
-        const ref = admin.database().ref(`notify/${uid}`);
-        ref.remove();
-      })
-      .catch(function(err){
-        console.log("Error sending message", err);
-      })
+    if (messageToken){
+      admin.messaging().sendToDevice(messageToken, payload)
+        .then(function(response){
+          console.log("Successfully sent message!");
+          const ref = admin.database().ref(`notify/${uid}`);
+          ref.remove();
+        })
+        .catch(function(err){
+          console.log("Error sending message", err);
+        })
+    }
+
+
   })
 })
 
