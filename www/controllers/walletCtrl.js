@@ -43,16 +43,22 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
 
     $scope.$on('$ionicView.beforeEnter', function () {
 
-              
-        window.FirebasePlugin.grantPermission();
-        window.FirebasePlugin.onNotificationOpen(function(notification) {
-              console.log(notification);
-              $scope.notification = notification;
+      $scope.notification = {
+        amount: "10",
+        body: "Time to make money! Someone near you needs cash!",
+        displayName:"Mason man",
+        distance:"0.0181131689886347",
+        giverID:"ZbQ8aVqOtrfHTjskAhxRG6fv2gq2",
+        rating:"5",
+        requestID:"ccmCbTagQfSF7HbNhWTB7ph2ZxX2",
+        tap:false,
+        title:"¢ashMe"
+      };
 
-              var myPopup = $ionicPopup.show({
-               templateUrl: '/templates/popup/requestPopup.html',
-               title: '<h3>Cashme Alert</h3>',
-               subTitle: '<h4>'+ $scope.notification.displayName+' needs your service</h4>',
+      var myPopup = $ionicPopup.show({
+               templateUrl: 'requestPopup.html',
+               title: '<h3 class="titlePopup">Cashme Alert</h3>',
+               subTitle: '<h5><b>'+ $scope.notification.displayName+'</b> needs your service</h5>',
                scope: $scope,
             
                buttons: [
@@ -67,7 +73,8 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
                           displayName: $scope.user.displayName,
                           distance: $scope.notification.distance,
                           requestID: $scope.notification.requestID,
-                          rating: $scope.myRating
+                          rating: $scope.myRating,
+                          amount: $scope.notification.amount
                         });
                         navigator.geolocation.getCurrentPosition(function(position){
                         firebase.database().ref("Users").child($scope.userID).update({
@@ -78,6 +85,13 @@ app.controller('walletPageCtrl', ['$scope','$state','$http','userMoney','$timeou
                 }
                ]
             });
+              
+        window.FirebasePlugin.grantPermission();
+        window.FirebasePlugin.onNotificationOpen(function(notification) {
+              console.log(notification);
+              $scope.notification = notification;
+              console.log("notification shows", $scope.notification);
+              
               
 
           }, function(error) {

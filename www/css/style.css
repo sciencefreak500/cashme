@@ -16,6 +16,19 @@
     padding: 2vw;
 }
 
+.popup-container .popup {
+    text-align: center;
+}
+
+.popup-container .popup .popup-head {
+    background-color: #9CCC65;
+
+}
+
+.titlePopup{
+    color: white;
+}
+
 
 
 /*---------------- INDEX.HTML ----------------------*/

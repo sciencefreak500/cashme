@@ -46,7 +46,9 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
   				requestID: $scope.userID,  
   				rating: myUser.getData().rating,
   				displayName: myUser.getData().displayName,
-  				amount: myUser.getData().request});
+  				amount: myUser.getData().request}).then(function(x){
+  					console.log("pushed notify");
+  				});
 	  			$timeout(function(){
 	  				console.log("after?");
 	  				sendNotifies(withDist, num+1, ticketNum);
@@ -75,8 +77,12 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  			}
 	  		});
 	  		angular.forEach(validUsers, function(valid){
-	  			var dist = getDistanceFromLatLonInKm($scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
-	  			withDist.push({info:valid,distance:dist});
+	  			console.log("dist,",$scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
+	  			if($scope.mylat && $scope.mylong && valid.latitude && valid.longitude){
+	  				var dist = getDistanceFromLatLonInKm($scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
+	  				withDist.push({info:valid,distance:dist});
+	  			}
+	  			
 	  		});
 	  		withDist.sort(function(a,b){
 	  			return a['distance'] - b['distance'];
