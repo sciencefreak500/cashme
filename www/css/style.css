@@ -5,12 +5,17 @@
 
 
 /*---------------- ELEMENTs ----------------------*/
+.container{
+    margin: 6vw;
+}
+
 .button{
     font-family: "Usual-Thin", "Usual", sans-serif;
 }
 
-.errorMessage{
-    background-color: #ff0039; 
+.error-message{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    background-color: #F44336; 
     color: white;
     text-align: center;
     padding: 2vw;
@@ -53,10 +58,6 @@
 
 
 /*---------------- LOGIN.HTML ----------------------*/
-.container{
-    margin: 6vw;
-}
-
 .item{
     border: none;
 }
