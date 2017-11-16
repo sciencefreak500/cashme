@@ -1,6 +1,6 @@
-app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','userMoney',
+app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','userMoney','myUser',
 
-  function ($scope, $state,$http,$timeout,$firebaseArray,userMoney) {
+  function ($scope, $state,$http,$timeout,$firebaseArray,userMoney,myUser) {
   	
     var amount;
 
@@ -8,6 +8,7 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  if (user) {
 	    $scope.userID = user.uid;
 	    firebase.database().ref("Users").child($scope.userID).update({available: false});
+	    
 	    $timeout(function(){$scope.$apply();});
 	  }
 	});
@@ -37,16 +38,20 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
             return deg * (Math.PI / 180);
         }
 
-        function sendNotifies(withDist, num){
+        function sendNotifies(withDist, num, ticketNum){
         	try{
-        		firebase.database().ref('notify').child(withDist[num].info.uid).update({
-  				distance: withDist[num].distance,
-  				id: withDist[num].info.uid,
-  				rating: withDist[num].info.rating,
-  				displayName: withDist[num].info.displayName});
+        		firebase.database().ref('notify').push({  //uppermost key = the giver
+  				distance: withDist[num].distance, //dist between
+  				giverID: withDist[num].info.uid,
+  				requestID: $scope.userID,  
+  				rating: myUser.getData().rating,
+  				displayName: myUser.getData().displayName,
+  				amount: myUser.getData().request}).then(function(x){
+  					console.log("pushed notify");
+  				});
 	  			$timeout(function(){
 	  				console.log("after?");
-	  				sendNotifies(withDist, num+1);
+	  				sendNotifies(withDist, num+1, ticketNum);
 	  			},5000);
 	  			
         	}catch(err){
@@ -72,14 +77,28 @@ app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$fireba
 	  			}
 	  		});
 	  		angular.forEach(validUsers, function(valid){
-	  			var dist = getDistanceFromLatLonInKm($scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
-	  			withDist.push({info:valid,distance:dist});
+	  			console.log("dist,",$scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
+	  			if($scope.mylat && $scope.mylong && valid.latitude && valid.longitude){
+	  				var dist = getDistanceFromLatLonInKm($scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
+	  				withDist.push({info:valid,distance:dist});
+	  			}
+	  			
 	  		});
 	  		withDist.sort(function(a,b){
 	  			return a['distance'] - b['distance'];
 	  		});
 	  		console.log("with dist and sort", withDist);
-	  		sendNotifies(withDist, 0);
+	  		var ticket = {
+	  			amount: myUser.getData().request,
+	  			isOpen: true,
+	  			requestID: myUser.getData().uid,
+	  			requestPhoto: myUser.getData().photoURL
+	  		};
+	  		firebase.database().ref('ticket').push(ticket).then(function(x){
+	  			console.log("ticket made",x);
+	  			sendNotifies(withDist, 0, x.key);
+	  		});
+	  		
 	  		$timeout(function(){
 	  			$scope.cancelShow = true;
 	  		},15000);

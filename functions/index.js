@@ -6,12 +6,15 @@ admin.initializeApp(functions.config().firebase);
 exports.sendGiverNotification = functions.database.ref('/notify/{randomID}').onCreate(event=> {
 
 
-  const data = event.data.val();
+  var data = event.data.val();
+  const randomID = event.params.randomID;
   const uid = data.giverID;
+  console.log("uid is: ", uid);
   const userPromise = admin.database().ref(`Users/${uid}`).once('value');
 
   Promise.all([userPromise]).then(res=> {
     const userData = res[0].val();
+    console.log('userData is: ', userData);
     const messageToken = userData.messageToken;
     console.log('messaging token is ', messageToken);
 
@@ -20,19 +23,35 @@ exports.sendGiverNotification = functions.database.ref('/notify/{randomID}').onC
         title: '¢ashMe',
         body: 'Time to make money! Someone near you needs cash!',
         sound: 'default'
+      },
+      data: {
+        amount: String(data.amount),
+        displayName: data.displayName,
+        distance: String(data.distance),
+        giverID: data.giverID,
+        rating: String(data.rating),
+        requestID: data.requestID
+
       }
     }
-    payload.data = data;
 
-    admin.messaging().sendToDevice(messageToken, payload)
-      .then(function(response){
-        console.log("Successfully sent message!");
-        const ref = admin.database().ref(`notify/${uid}`);
-        ref.remove();
-      })
-      .catch(function(err){
-        console.log("Error sending message", err);
-      })
+    console.log("THE GODDAMN DATA THAT WILL BE PASSED: ", data);
+    console.log ("THE GODDAMN NOTIFICATION", payload);
+
+
+    if (messageToken){
+      admin.messaging().sendToDevice(messageToken, payload)
+        .then(function(response){
+          console.log("Successfully sent message!");
+          const ref = admin.database().ref(`notify/${randomID}`);
+          ref.remove();
+        })
+        .catch(function(err){
+          console.log("Error sending message", err);
+        })
+    }
+
+
   })
 })
 
