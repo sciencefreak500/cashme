@@ -13,33 +13,41 @@
       </a>
     </div>
 
+
     <div class="container">
       
+      <!-- My Wallet -->
       <div>
         <label class="item item-input item-floating-label">
-            <span class="input-label eoko-wallet-input-label">My Wallet</span>
-            <input name="wallet" ng-model="money.wallet" type="number" placeholder="How much do you have in your wallet?">
-        </label>
-      </div>
-
-      <div>
-        <label class="item item-input item-floating-label">
-            <span class="input-label eoko-wallet-input-label">My Request</span>
-            <input name="request" ng-model="money.request" type="number" placeholder="How much do you want to request?">
+            <span class="input-label cashme-wallet-input-label">My Wallet</span>
+            <input name="wallet" ng-change="setMyWallet()" ng-model="money.wallet" 
+                  type="number" placeholder="How much do you have in your wallet?"
+                  min="5" step="1" max="500">
         </label>
       </div>
       
       <br>
-      <button class="button button-block eoko-button" ng-click="requestCash()">Get Cash</button>
+      <!-- My request -->
+      <div>
+        <label class="item item-input item-floating-label">
+            <span class="input-label cashme-wallet-input-label">My Request</span>
+            <input name="request" ng-change="setMyRequest()" ng-model="money.request" 
+                  type="number" placeholder="How much do you want to request?"
+                  min="5" step="1" max="500">
+        </label>
+      </div>
+      
+      <br>
+      <button class="button button-block cashme-button" ng-click="requestCash()">Get Cash</button>
 
     </div>
 
     <script id="requestPopup.html" type="text/ng-template">
       <div class="requestPopup">
-        <h4><span>star</span>{{notification.rating}}/5</h4>
+        <h4><span>star</span> {{notification.rating}}/5</h4>
         <h4 ng-if="notification.distance >= 0.1">{{notification.distance | number:1}} miles away</h4>
         <h4 ng-if="notification.distance < 0.1">{{notification.distance * 5280 | number:1}} feet away</h4>
-        <h4>He needs {{notification.amount}} dollars</h4>
+        <h4>{{notification.displayName}} needs ${{notification.amount}}</h4>
         <h5>*Remember, you must have exact change</h5>
       </div>
     </script>

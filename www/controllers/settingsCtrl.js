@@ -111,8 +111,6 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
   		}).then(function(success){
   			console.log("new stuff set", firebase.auth().currentUser.displayName);
   			$state.go('wallet');
-
-
   		});
   	};
 
@@ -123,8 +121,8 @@ app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
   			console.log("out");
   			$state.go('login');
   		});
-  	};
-
-}
+		};
+		
+	}
 
 ]);

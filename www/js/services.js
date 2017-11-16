@@ -5,7 +5,6 @@ angular.module('app.services', [])
 .factory('otherUser', [function() {
     var user;
 
-    
     return{
         getData: function(){
 
@@ -29,8 +28,6 @@ angular.module('app.services', [])
         }
     });
 
-
-    
     return{
         getData: function(){
 
@@ -47,7 +44,6 @@ angular.module('app.services', [])
     var walletValue;
     var requestValue;
 
-    
     return{
     	getWallet: function(){
 
@@ -66,3 +62,16 @@ angular.module('app.services', [])
 
   }])
 
+.directive('currency', function () {
+    return {
+        require: 'ngModel',
+        link: function(elem, $scope, attrs, ngModel){
+            ngModel.$formatters.push(function(val){
+                return '$' + val
+            });
+            ngModel.$parsers.push(function(val){
+                return val.replace(/^\$/, '')
+            });
+        }
+    }
+})

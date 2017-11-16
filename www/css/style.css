@@ -30,8 +30,21 @@
 
 }
 
-.titlePopup{
+.scroll {
+    height: 100%;
+}
+ 
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*---------------- POP UPS ----------------------*/
+.cashme-title-popup{
+    font-family: "Usual-Thin", "Usual", sans-serif;
     color: white;
+    letter-spacing: 1.5px;
 }
 
 
@@ -62,7 +75,7 @@
     border: none;
 }
 
-.input-label.eoko-login-input-label{
+.input-label.cashme-login-input-label{
     font-family: "Usual-Bold", "Usual", sans-serif;
     color: white;
     letter-spacing: 1.5px;
@@ -80,7 +93,7 @@ input[type="email"]::placeholder, input[type="password"]::placeholder{
     color: white;
 }
 
-.eoko-login-button{
+.cashme-login-button{
     background-color: white;
     color: #9CCC65;
     font-size: 20px;
@@ -93,7 +106,7 @@ input[type="email"]::placeholder, input[type="password"]::placeholder{
 
 
 /*---------------- SETTING.HTML ----------------------*/
-.button-clear.button-clear.eoko-sign-out-button{
+.button-clear.button-clear.cashme-sign-out-button{
     color: white;
     float: right;
     position: relative;
@@ -113,13 +126,13 @@ input[type="email"]::placeholder, input[type="password"]::placeholder{
     position: relative;
 }
 
-.eoko-button{
+.cashme-button{
     background-color: #9CCC65;
     color: white;
     font-size: 20px;
 }
 
-.input-label.eoko-setting-input-label{
+.input-label.cashme-setting-input-label{
     font-family: "Usual-Thin", "Usual", sans-serif;
     color: #9CCC65;
     letter-spacing: 1.5px;
@@ -135,7 +148,7 @@ input[type="text"]{
 
 
 /*---------------- WALLET.HTML ----------------------*/
-.input-label.eoko-wallet-input-label{
+.input-label.cashme-wallet-input-label{
     font-family: "Usual-Thin", "Usual", sans-serif;
     font-size: 5vw;
     color: #9CCC65;
@@ -166,12 +179,12 @@ input[type="number"]::placeholder{
 
 
 /*---------------- WAITING.HTML ----------------------*/
-.eoko-h1{
+.cashme-h1{
     text-align: center;
     color: #9CCC65;
 }
 
-.button.button-clear.eoko-cancel-button{
+.button.button-clear.cashme-cancel-button{
     color: white;
     float: right;
     position: relative;
@@ -182,19 +195,19 @@ input[type="number"]::placeholder{
 
 /*---------------- RESPONSIVE STUFF ----------------------*/
 @media all and (max-device-width: 412px){
-    .button-clear.button-clear.eoko-sign-out-button{
+    .button-clear.button-clear.cashme-sign-out-button{
         margin-top: -16vh;
     }
-    .button.button-clear.eoko-cancel-button{
+    .button.button-clear.cashme-cancel-button{
         margin-top: -6vh;   
     }
 }
 
 @media only screen and (max-device-width: 360px){
-    .button-clear.button-clear.eoko-sign-out-button{
+    .button-clear.button-clear.cashme-sign-out-button{
         margin-top: -18vh;
     }
-    .button.button-clear.eoko-cancel-button{
+    .button.button-clear.cashme-cancel-button{
         margin-top: -7vh;   
     }
 }

@@ -62,6 +62,13 @@ angular.module('app.routes', ['ui.router'])
     controller: 'feedbackCtrl'
 })
 
+.state('map', {
+  name: 'map',
+  url: '/mapPage',
+    templateUrl: 'templates/map.html',
+    controller: 'mapCtrl'
+})
+
 
 
 $urlRouterProvider.otherwise('/loginPage')

@@ -2,7 +2,7 @@ angular.module('firebaseConfig', ['firebase'])
 
 .run(function(){
 
-    var config = {
+  var config = {
     apiKey: "AIzaSyB41jdT1VaWHkHvTm-kzyks8m8c4jynYZE",
     authDomain: "cashme-1c9ee.firebaseapp.com",
     databaseURL: "https://cashme-1c9ee.firebaseio.com",

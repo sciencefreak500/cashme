@@ -19,6 +19,7 @@ angular.module('app', ['ionic','app.routes','app.controllers','app.services','fi
     }
     if(window.StatusBar) {
       StatusBar.styleDefault();
+      StatusBar.styleLightContent();
     }
   });
 })
