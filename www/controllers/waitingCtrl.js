@@ -1,4 +1,4 @@
-app.controller('waitingPageCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','userMoney','myUser',
+app.controller('waitingCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','userMoney','myUser',
 
 	function ($scope, $state,$http,$timeout,$firebaseArray,userMoney,myUser) {
   	

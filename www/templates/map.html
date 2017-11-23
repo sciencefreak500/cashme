@@ -1,5 +1,24 @@
 <ion-view title="map">
-    <ion-content>
+    <ion-content scroll="false">
+
+        <!-- Header Logo -->
+        <div class="titleStyle">
+            <img src="img/logo.svg">
+        </div>
+
+        <!-- Meet up address -->
+        <div style="margin-bottom: 1vh;">
+            <label class="item item-input item-floating-label">
+                <span class="input-label cashme-map-input-label">Meet up at</span>
+                <input type="text" name="user.meetUpAddress" 
+                        data-ng-model="user.meetUpAddress"
+                        placeholder="Where do you want to meet up?"
+                        style="font-size: 3.4vw; text-overflow: ellipsis;">
+            </label>
+        </div>
+
+        <!-- Map -->
         <div id="map" data-tap-disabled="true"></div>
+
     </ion-content>
 </ion-view>

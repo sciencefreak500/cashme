@@ -1,4 +1,4 @@
-app.controller('loginPageCtrl', ['$scope','$state','$http','$timeout',
+app.controller('loginCtrl', ['$scope','$state','$http','$timeout',
 
   function ($scope, $state,$http,$timeout) {
 

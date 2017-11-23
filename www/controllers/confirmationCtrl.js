@@ -1,4 +1,4 @@
-app.controller('confirmationPageCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','otherUser',
+app.controller('confirmationCtrl', ['$scope','$state','$http','$timeout','$firebaseArray','otherUser',
 
   function ($scope, $state,$http,$timeout,$firebaseArray,otherUser) {
   	

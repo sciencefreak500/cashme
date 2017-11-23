@@ -1,4 +1,4 @@
-app.controller('settingsPageCtrl', ['$scope','$state','$http','$timeout',
+app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
 
   function ($scope, $state,$http,$timeout) {
 
