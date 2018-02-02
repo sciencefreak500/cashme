@@ -1,5 +1,5 @@
 <ion-view title="settings">
-    <ion-content scroll="false">
+    <ion-content >
 
         <!-- Header Logo -->
         <div class="titleStyle">
@@ -10,12 +10,12 @@
         <div style="display: block; text-align: center;">
             <img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
         </div>
-        
+
         <!-- Sign Out Button -->
         <button class="button button-clear cashme-sign-out-button" ng-click="signOut()">
             Sign Out
         </button>
-        
+
 
         <div class="container">
             <!-- <h1 ui-sref="finalConfirmation">Setting page</h1> -->
@@ -27,7 +27,13 @@
             <br>
             <button class="button button-block cashme-button" ng-click="saveInfo()">Save</button>
         </div>
-        
+
+
+        <div id="dropin-container">
+
+        </div>
+        <button class="button button-block cashme-button" ng-click="submitPaymentMethod()">Submit</button>
+
     </ion-content>
 
 </ion-view>
