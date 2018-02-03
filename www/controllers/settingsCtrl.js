@@ -4,34 +4,38 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
 
     $scope.$on('$ionicView.beforeEnter', function() {
 
+      $scope.userRating = "";
+      firebase.auth().onAuthStateChanged(function(user){
+        userRef = firebase.database().ref('Users/'+user.uid);
+        userRef.once('value').then(function(success){
+          console.log("get ratintg,", success.val().rating);
+          $scope.userRating = success.val().rating;
+        });
 
-      // firebase.auth().onAuthStateChanged(function(user){
-      //   userRef = firebase.database().ref('Users/'+user.uid);
-      //
-      //   //--------------------------Get messaging token------------------------------
-      //   window.FirebasePlugin.grantPermission();
-      //   window.FirebasePlugin.getToken(function(token) {
-      //         // save this server-side and use it to push notifications to this device
-      //         console.log("got the token", token);
-      //         userRef.update({
-      //           messageToken: token
-      //         });
-      //
-      //     }, function(error) {
-      //         console.error(error);
-      //     });
-      //     window.FirebasePlugin.onTokenRefresh(function(token) {
-      //         // save this server-side and use it to push notifications to this device
-      //         console.log("got the token", token);
-      //         userRef.update({
-      //           messageToken: token
-      //         });
-      //
-      //     }, function(error) {
-      //         console.error(error);
-      //     });
-      //
-      // });
+        //--------------------------Get messaging token------------------------------
+        window.FirebasePlugin.grantPermission();
+        window.FirebasePlugin.getToken(function(token) {
+              // save this server-side and use it to push notifications to this device
+              console.log("got the token", token);
+              userRef.update({
+                messageToken: token
+              });
+
+          }, function(error) {
+              console.error(error);
+          });
+          window.FirebasePlugin.onTokenRefresh(function(token) {
+              // save this server-side and use it to push notifications to this device
+              console.log("got the token", token);
+              userRef.update({
+                messageToken: token
+              });
+
+          }, function(error) {
+              console.error(error);
+          });
+
+      });
 
     });
 
