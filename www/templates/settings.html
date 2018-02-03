@@ -29,10 +29,20 @@
         </div>
 
 
+        <ion-list>
+          <span class="input-label cashme-setting-input-label">Your Cards</span>
+          <ion-item ng-repeat="paymentMethod in customer.paymentMethods">
+            {{paymentMethod.cardType}} ending in {{paymentMethod.last4}} expiring in {{paymentMethod.expirationDate}}
+          </ion-item>
+
+        </ion-list>
+
+
         <div id="dropin-container">
 
         </div>
-        <button class="button button-block cashme-button" ng-click="submitPaymentMethod()">Submit</button>
+        <button class="button button-block cashme-button" ng-click="addNewCard()" ng-show="!hideNewCard">Add New Card</button>
+        <button class="button button-block cashme-button" ng-click="submitPaymentMethod()" ng-show="hideNewCard">Add Card</button>
 
     </ion-content>
 

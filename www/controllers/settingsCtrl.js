@@ -44,16 +44,22 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
 	    $scope.userID = user.uid;
 	    $scope.user = {displayName: user.displayName, photoURL: user.photoURL, email: user.email};
       console.log("user", $scope.user);
+      $scope.getCards();
 	    $timeout(function(){$scope.$apply();});
+
 	  }
 	});
+
+
+  //------------------------------------------BRAINTREE SECTION ------------------------------------------
 //Get client token
-function getClientToken(){
+$scope.addNewCard = function(){
   $http({
     method: 'POST',
     url: 'http://localhost:3000/client_token'
   }).then(function(res) {
     console.log("Successfully got client token")
+    $scope.hideNewCard = true;
     console.log(res);
 
     // Set up braintree
@@ -69,8 +75,8 @@ function getClientToken(){
     console.error(e);
   }
 }
-
-getClientToken();
+//
+// getClientToken();
 $scope.submitPaymentMethod = function() {
   if ($scope.instance){
     $scope.instance.requestPaymentMethod(function(err, payload){
@@ -89,11 +95,28 @@ $scope.submitPaymentMethod = function() {
         }
       }).then(function(res){
         console.log("response", res);
+        $scope.hideNewCard = false;
       })
     })
   }
 }
 
+$scope.getCards = function () {
+  console.log($scope.userID);
+  $http({
+    method: 'POST',
+    url: "http://localhost:3000/customer_info",
+    data: {
+      "customer_id": $scope.userID
+    }
+  }).then(function(res){
+    $scope.customer = res.data;
+    console.log("customer", $scope.customer);
+  })
+}
+
+
+// ----------------------- END OF BRAINTREE SECTION -----------------------------------------------------
 
 
 
