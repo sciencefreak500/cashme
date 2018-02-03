@@ -19,17 +19,20 @@
         Settings
     </button>
 
-    <ion-toggle ng-model="money.isAvailable" ng-click="toggleAvailable()" toggle-class="toggle-calm">Available?</ion-toggle>
+    <div class="list" style="text-align: center; color: #9CCC65; margin-bottom: 0;">
+      <a class="item">
+          Are you available to deliver money?
+          <ion-toggle ng-model="money.isAvailable" ng-click="toggleAvailable()" toggle-class="toggle-energized"></ion-toggle>
+      </a>
+    </div>
 
-
-    <div class="container">
-
+    <div class="container" style="margin-top:0;">
       <!-- My Wallet -->
       <div>
         <label class="item item-input item-floating-label">
-            <span class="input-label cashme-wallet-input-label">My Wallet</span>
+            <span class="input-label cashme-wallet-input-label">My wallet</span>
             <input name="wallet" ng-change="setMyWallet()" ng-model="money.wallet"
-                  type="number" placeholder="How much do you have in your wallet?"
+                  type="text" placeholder="How much do you have in your wallet?"
                   min="5" step="1" max="500">
         </label>
       </div>
@@ -38,9 +41,9 @@
       <!-- My request -->
       <div>
         <label class="item item-input item-floating-label">
-            <span class="input-label cashme-wallet-input-label">My Request</span>
+            <span class="input-label cashme-wallet-input-label">My request</span>
             <input name="request" ng-change="setMyRequest()" ng-model="money.request"
-                  type="number" placeholder="How much do you want to request?"
+                  type="text" placeholder="How much do you want to request?"
                   min="5" step="1" max="500">
         </label>
       </div>

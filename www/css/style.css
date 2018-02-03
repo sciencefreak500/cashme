@@ -172,33 +172,43 @@ input[type="text"]{
 /*---------------- WALLET.HTML ----------------------*/
 .input-label.cashme-wallet-input-label{
     font-family: "Usual-Thin", "Usual", sans-serif;
-    font-size: 5vw;
+    font-size: 4vw;
     color: #9CCC65;
     letter-spacing: 1.5px;
 }
 
-input[type="number"]{ 
+input[type="text"]{ 
     font-family: "Usual-Thin", "Usual", sans-serif;
-    font-size: 9vw;
+    font-size: 7vw;
     font-weight: bolder;
     color: #9CCC65;
     letter-spacing: 2px;
     text-align: center;
     border-bottom: 1px solid #9CCC65;
     width: 75vw;
-    height: 10vh;
+    height: 5vh;
     margin: 0 auto;
 }
 
-input[type="number"]::placeholder{
+input[type="text"]::placeholder{
     font-family: "Usual-Thin", "Usual", sans-serif;
-    font-size: 4vw;
+    font-size: 2vw;
     white-space:pre-line;  
     position:relative;
-    top:-7px;
+    top:-18px;
     text-align: center;
 }
 
+.item-toggle .toggle{
+    position: relative;
+    top: 0;
+    right: 0;
+    z-index: 3;
+}
+
+.item-toggle, .item-toggle.item-complex .item-content{
+    padding-right: 16px;
+}
 
 /*---------------- WAITING.HTML ----------------------*/
 .cashme-h1{
