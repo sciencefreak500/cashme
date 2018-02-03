@@ -2,7 +2,7 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
 
   function ($scope, $state,$http,userMoney,$timeout,$ionicPlatform,$ionicPopup,myUser) {
   	console.log("wallet page");
-  	
+
     $scope.money = {wallet: 0, request: 0};
 
   	firebase.auth().onAuthStateChanged(function(user) {
@@ -17,7 +17,7 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
           userMoney.setWallet(snap.val().wallet);
           firebase.database().ref("Users").child($scope.userID).update({available: true});
         });
-      
+
         $timeout(function(){$scope.$apply();});
         navigator.geolocation.getCurrentPosition(function(position){
           firebase.database().ref("Users").child($scope.userID).update({
@@ -34,7 +34,7 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
           longitude: position.coords.longitude,
           latitude: position.coords.latitude});
       });
-        firebase.database().ref("Users").child($scope.userID).update({available: true});    
+        firebase.database().ref("Users").child($scope.userID).update({available: true});
     });
 
 
@@ -57,11 +57,11 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
         title: '<h3 class="cashme-title-popup">cashme Alert</h3>',
         subTitle: '<h5><b>'+ $scope.notification.displayName+'</b> needs your service</h5>',
         scope: $scope,
-    
+
         buttons: [
           { text: 'Cancel',
             type: 'button-light'
-          }, 
+          },
           { text: '<b>Accept</b>',
             type: 'button-balanced',
             onTap: function(e) {
@@ -83,7 +83,7 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
             }
           }]
       });
-              
+
       window.FirebasePlugin.grantPermission();
       window.FirebasePlugin.onNotificationOpen(function(notification) {
         console.log(notification);
@@ -113,7 +113,7 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
     //send and update request
   	$scope.requestCash = function(){
       console.log("requesting cash", $scope.money.request);
-      
+
       if($scope.money.request === null || $scope.money.request === undefined){
         $ionicPopup.alert({
           title: 'Error',
@@ -124,7 +124,7 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
       }
 
       firebase.database().ref('Users').child($scope.userID).update({
-        wallet: $scope.money.wallet, 
+        wallet: $scope.money.wallet,
         request: $scope.money.request
       });
       userMoney.setWallet($scope.money.wallet);
@@ -132,5 +132,11 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
       $state.go('map');
   	};
 
-  }	
+
+
+    $scope.goToSettings = function() {
+      $state.go('settings');
+    }
+
+  }
 ]);

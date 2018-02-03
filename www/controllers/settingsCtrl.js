@@ -2,6 +2,8 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
 
   function ($scope, $state,$http,$timeout) {
 
+    $scope.showDropin = false;
+
     $scope.$on('$ionicView.beforeEnter', function() {
 
 
@@ -52,54 +54,13 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
 
 
   //------------------------------------------BRAINTREE SECTION ------------------------------------------
-//Get client token
-$scope.addNewCard = function(){
-  $http({
-    method: 'POST',
-    url: 'http://localhost:3000/client_token'
-  }).then(function(res) {
-    console.log("Successfully got client token")
-    $scope.hideNewCard = true;
-    console.log(res);
 
-    // Set up braintree
-
-    braintree.dropin.create({
-      authorization: res.data.client_token,
-      container: document.getElementById("dropin-container")
-    }, function(createErr, instance){
-      $scope.instance = instance;
-    })
-  }),
-  function error(e){
-    console.error(e);
-  }
+$scope.addNewCard = function() {
+  $state.go('newCard');
 }
 //
 // getClientToken();
-$scope.submitPaymentMethod = function() {
-  if ($scope.instance){
-    $scope.instance.requestPaymentMethod(function(err, payload){
-      if (err){
-        console.error(err);
-      }
 
-      var nonce = payload.nonce;
-      $http({
-        method: 'POST',
-        url: 'http://localhost:3000/add_payment_method',
-        data: {
-          "customer_id": $scope.userID,
-          "payment_method_nonce": nonce,
-          "email": $scope.user.email
-        }
-      }).then(function(res){
-        console.log("response", res);
-        $scope.hideNewCard = false;
-      })
-    })
-  }
-}
 
 $scope.getCards = function () {
   console.log($scope.userID);

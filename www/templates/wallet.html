@@ -13,30 +13,34 @@
       </a>
     </div>
 
+    <!-- Sign Out Button -->
+    <button class="button button-clear cashme-sign-out-button" ng-click="goToSettings()">
+        Settings
+    </button>
 
     <div class="container">
-      
+
       <!-- My Wallet -->
       <div>
         <label class="item item-input item-floating-label">
             <span class="input-label cashme-wallet-input-label">My Wallet</span>
-            <input name="wallet" ng-change="setMyWallet()" ng-model="money.wallet" 
+            <input name="wallet" ng-change="setMyWallet()" ng-model="money.wallet"
                   type="number" placeholder="How much do you have in your wallet?"
                   min="5" step="1" max="500">
         </label>
       </div>
-      
+
       <br>
       <!-- My request -->
       <div>
         <label class="item item-input item-floating-label">
             <span class="input-label cashme-wallet-input-label">My Request</span>
-            <input name="request" ng-change="setMyRequest()" ng-model="money.request" 
+            <input name="request" ng-change="setMyRequest()" ng-model="money.request"
                   type="number" placeholder="How much do you want to request?"
                   min="5" step="1" max="500">
         </label>
       </div>
-      
+
       <br>
       <button class="button button-block cashme-button" ng-click="requestCash()">Get Cash</button>
 

@@ -10,6 +10,7 @@ var app = express();
 var jsonParser = bodyParser.json();
 
 
+
 /**
  * Enable CORS (http://enable-cors.org/server_expressjs.html)
  * to allow different clients to request data from your server
@@ -26,6 +27,7 @@ var gateway = braintree.connect({
   publicKey: "fs7qxrnhy2ffp3hd",
   privateKey: "233afe3b87a7e9123f2a45a5a81d9e57"
 });
+
 app.get("", function(req, res){
   res.write("This is the server for generating Braintree client token!")
   res.end();
@@ -58,7 +60,9 @@ app.post("/add_payment_method", jsonParser, function(req, res){
       if (err.type=="notFoundError"){
         console.log("not found customer");
         customer = createCustomer(customer_id, email, nonce);
+
         res.send(customer);
+
       }
 
     }
@@ -77,6 +81,8 @@ app.post("/customer_info", jsonParser, function(req, res){
   var data = req.body;
   var customer_id = data.customer_id;
   // customer_id = data.customer_id;
+
+  
   gateway.customer.find(customer_id, function(err, cust){
     if (err){
       res.send("Not found")
@@ -142,3 +148,14 @@ function updateCustomer(customer_id, nonce, existingToken){
     })
   }
 }
+
+// function findCustomer(customer_id){
+//   gateway.customer.find(customer_id, function(err, customer){
+//     if (err){
+//       return "Customer not found!";
+//     }
+//     else {
+//       return customer;
+//     }
+//   })
+// }
