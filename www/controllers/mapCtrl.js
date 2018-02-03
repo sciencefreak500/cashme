@@ -13,9 +13,6 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
 			}
         });
 
-        var options = {timeout: 10000, enableHighAccuracy: true};
-
-
         $scope.$on('$ionicView.beforeEnter', function (){
 
             //getting current user's locations
@@ -25,7 +22,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
 
                 var mapOptions = {
                     center: latLng,
-                    zoom: 17,
+                    zoom: 15,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
             
@@ -47,19 +44,30 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                     coords: [1, 1, 1, 20, 18, 20, 18, 1],
                     type: 'circle'
                 };
-    
+                
+                var userIcon = {
+                    url: $scope.user.photoURL,
+                    size: new google.maps.Size(30, 30),
+                    scaledSize: new google.maps.Size(30, 30),
+                    origin: new google.maps.Point(0,0)
+                }
+
                 //make map maker on the map
                 var marker = new google.maps.Marker({
                     position: latLng,
                     map: $scope.map,
                     animation: google.maps.Animation.DROP,
-                    // icon: 'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png',
-                    shape: shape,
+                    icon: userIcon,
                     draggable:true,
-                    title:"Drag me!",
-                    class: "user-pic"
+                    optimized:false
                 });
-    
+
+                var myoverlay = new google.maps.OverlayView();
+                myoverlay.draw = function () {
+                    this.getPanes().markerLayer.id='markerLayer';
+                };
+                myoverlay.setMap($scope.map);
+
                 var geocoder = new google.maps.Geocoder();
                 var infowindow = new google.maps.InfoWindow();
 
@@ -80,7 +88,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                 getAddress(geocoder, $scope.map, infowindow, latLng, marker);
 
                 //draw user and other user pictures on map
-                new CustomUserPictureOverLay(latLng, $scope.user.photoURL, $scope.map);
+                // new CustomUserPictureOverLay(latLng, $scope.user.photoURL, $scope.map);
 
 
                 //autocomplete places 
@@ -96,7 +104,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                         $scope.map.fitBounds(place.geometry.viewport);
                     } else {
                         $scope.map.setCenter(place.geometry.location);
-                        $scope.map.setZoom(17);  // Why 17? Because it looks good.
+                        $scope.map.setZoom(15);
                     }
                     marker.setPosition(place.geometry.location);
                     marker.setVisible(true);
