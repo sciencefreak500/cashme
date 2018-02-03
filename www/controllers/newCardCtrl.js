@@ -14,7 +14,7 @@ app.controller('newCardCtrl', function($scope, $state, $http, $timeout){
   $scope.addNewCard = function(){
     $http({
       method: 'POST',
-      url: 'http://localhost:3000/client_token'
+      url: 'http://li204-59.members.linode.com:3000/client_token'
     }).then(function(res) {
       console.log("Successfully got client token")
       $scope.hideNewCard = true;
@@ -46,7 +46,7 @@ app.controller('newCardCtrl', function($scope, $state, $http, $timeout){
         $scope.btnMessage = "Adding new card..."
         $http({
           method: 'POST',
-          url: 'http://localhost:3000/add_payment_method',
+          url: 'http://li204-59.members.linode.com:3000/add_payment_method',
           data: {
             "customer_id": $scope.userID,
             "payment_method_nonce": nonce,

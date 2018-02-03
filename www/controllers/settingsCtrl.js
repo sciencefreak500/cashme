@@ -70,7 +70,7 @@ $scope.getCards = function () {
   console.log($scope.userID);
   $http({
     method: 'POST',
-    url: "http://localhost:3000/customer_info",
+    url: "http://li204-59.members.linode.com:3000/customer_info",
     data: {
       "customer_id": $scope.userID
     }
