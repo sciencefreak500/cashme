@@ -4,7 +4,6 @@ app.controller('loginCtrl', ['$scope','$state','$http','$timeout',
 
 		//user login credential info
   	$scope.user = {email:"", password:""};
-
   	firebase.auth().onAuthStateChanged(function(user) {
 	  	if (user) {
 	    	$state.go('settings');
@@ -14,7 +13,6 @@ app.controller('loginCtrl', ['$scope','$state','$http','$timeout',
 
 		//error message for login
 		$scope.error = {message:""};
-
   	$scope.loginUser = function(){
   		console.log("loginCtrl.js - login user");
 			
@@ -23,7 +21,9 @@ app.controller('loginCtrl', ['$scope','$state','$http','$timeout',
   			console.log("loginCtrl.js - successful logged in for new user", user);
   			userobj = {
   				uid: user.uid,
-  				email: user.email
+  				email: user.email,
+          userCreated: firebase.database.ServerValue.TIMESTAMP,
+          rating: 5
   			};
   			firebase.database().ref('Users').child(user.uid).update(userobj).then(function(x){
   				console.log("loginCtrl.js - created a new user");

@@ -3,8 +3,13 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
   function ($scope, $state,$http,$timeout) {
 
     $scope.$on('$ionicView.beforeEnter', function() {
+      $scope.userRating = "";
       firebase.auth().onAuthStateChanged(function(user){
         userRef = firebase.database().ref('Users/'+user.uid);
+        userRef.once('value').then(function(success){
+          console.log("get ratintg,", success.val().rating);
+          $scope.userRating = success.val().rating;
+        });
 
         //--------------------------Get messaging token------------------------------
         window.FirebasePlugin.grantPermission();
