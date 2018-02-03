@@ -98,7 +98,6 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
 =======
       });*/
 
->>>>>>> 4379cf9740879fd5bf7403eff3786c0959acd64f
       window.FirebasePlugin.grantPermission();
       window.FirebasePlugin.onNotificationOpen(function(notification) {
         console.log(notification);
