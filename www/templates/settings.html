@@ -11,13 +11,13 @@
             <img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
         </div>
 
-        <!-- Sign Out Button -->
-        <button class="button button-clear cashme-sign-out-button" ng-click="signOut()">
-            Sign Out
+        <!-- Save Button -->
+        <button class="button button-clear cashme-sign-out-button" ng-click="saveInfo()">
+            Save
         </button>
 
-        <div class="cashme-sign-out-button">
-            <p>My Rating: {{userRating}}</p>
+        <div class="cashme-ratings">
+            {{userRating}}<a class="icon-right ion-ios-star" style="color: #9CCC65;"></a>
         </div>
         
         <div class="container">
@@ -25,24 +25,35 @@
 
             <label class="item item-input item-floating-label">
                 <span class="input-label cashme-setting-input-label">My name is</span>
-                <input name="name" ng-model="user.displayName" type="text" placeholder="Enter your name">
+                <input style="text-align: center;" name="name" ng-model="user.displayName" type="text" placeholder="Enter your name">
             </label>
             <br>
-            <button class="button button-block cashme-button" ng-click="saveInfo()">Save</button>
+
         </div>
 
+        <div class="list card" style="color: #9CCC65;">
+            <a class="item item-divider">
+                Your cards
+            </a>
+            
+            <a class="item item-icon-right cashme-option-list" ng-repeat="paymentMethod in customer.paymentMethods">
+                    {{paymentMethod.cardType}} ending in {{paymentMethod.last4}} expiring in {{paymentMethod.expirationDate}}
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
 
-        <ion-list>
-          <span class="input-label cashme-setting-input-label">Your Cards</span>
-          <ion-item ng-repeat="paymentMethod in customer.paymentMethods">
-            {{paymentMethod.cardType}} ending in {{paymentMethod.last4}} expiring in {{paymentMethod.expirationDate}}
-          </ion-item>
+            <a class="item item-icon-left cashme-option-list" ng-click="addNewCard()">
+                <i class="icon icon-small ion-ios-plus-outline"></i>
+                Add New Card
+            </a>
+        </div>
+        
+        <div class="list" style="color: #9CCC65;">
+            <a class="item item-icon-right cashme-option-list" ng-click="signOut()">
+                Sign out
+                <i class="icon ion-ios-arrow-forward"></i>
+            </a>
+        </div>
 
-        </ion-list>
-
-
-
-        <button class="button button-block cashme-button" ng-click="addNewCard()">Add New Card</button>
 
 
     </ion-content>

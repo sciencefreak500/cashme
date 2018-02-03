@@ -155,7 +155,19 @@ input[type="text"]{
     letter-spacing: 2px;
 }
 
+.cashme-ratings{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    text-align: center;
+    font-size: 20px;
+    color: #9CCC65;
+}
 
+.cashme-option-list{
+    border-top-width: 1px;
+    border-bottom-width: 0.5px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+}
 
 /*---------------- WALLET.HTML ----------------------*/
 .input-label.cashme-wallet-input-label{
