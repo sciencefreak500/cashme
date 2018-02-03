@@ -1,19 +1,34 @@
-app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$compile','$http',
-	function ($scope, $state, $ionicLoading, $timeout, $compile,$http) {
+app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$compile','$http','userMoney','myUser','$firebaseArray',
+	function ($scope, $state, $ionicLoading, $timeout, $compile,$http,userMoney,myUser,$firebaseArray) {
         
         //variables
         $scope.user ={};
         $scope.user.meetUpAddress = "";
         $scope.isLooking = false;
+        var amount;
+        var requested;
         firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
                 $scope.userID = user.uid;
-                $scope.user = {displayName: user.displayName, photoURL: user.photoURL};				
+                $scope.user = {displayName: user.displayName, photoURL: user.photoURL};	
+
+                firebase.database().ref("Users").child(user.uid).once('value').then(function(success){
+                    requested = success.val().request;
+                });
 				$timeout(function(){$scope.$apply();});
+
 			}
         });
 
         $scope.$on('$ionicView.beforeEnter', function (){
+
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                   firebase.database().ref("Users").child(user.uid).update({available: false});
+                }
+            });
+            amount = userMoney.getRequest();
+            $scope.cancelButtonShow = false;
 
             //getting current user's locations
             navigator.geolocation.getCurrentPosition(function(position){
@@ -119,6 +134,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
 
         $scope.sendMeetUpAddress = function(){
             $scope.isLooking = true;
+             $scope.simplifyList();
         };
 
         $scope.cancelSendMeetUpAddress = function(){
@@ -233,95 +249,93 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
             });
         }
 
-        // $scope.geolocate = function($event){
-        //      // $event.target.select();
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+                var R = 6371; // Radius of the earth in km
+                var dLat = deg2rad(lat2 - lat1); // deg2rad below
+                var dLon = deg2rad(lon2 - lon1);
+                var a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c; // Distance in km
+                return d;
+            }
 
-        //     // var card = document.getElementById('pac-card');
-        //     // var input = document.getElementById('pac-input');
-        //     // var autocomplete = new google.maps.places.Autocomplete(input);
-        //     console.log("geolocate clicked");
-        //     var marker = new google.maps.Marker({
-        //         map: map,
-        //         anchorPoint: new google.maps.Point(0, -29)
-        //     });
-        // };
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
 
-        // var autocomplete = new google.maps.places.Autocomplete(
-        //         (document.getElementById('autocomplete')),
-        //         {types: ['geocode','establishment']});
+        function sendNotifies(withDist, num, ticketNum){
+            try{
+                firebase.database().ref('notify').push({  //uppermost key = the giver
+                    distance: withDist[num].distance, //dist between
+                    giverID: withDist[num].info.uid,
+                    requestID: $scope.userID,  
+                    rating: myUser.getData().rating,
+                    displayName: myUser.getData().displayName,
+                    amount: myUser.getData().request}).then(function(x){
+                    console.log("pushed notify");
+                });
+                $timeout(function(){
+                    console.log("after?");
+                    sendNotifies(withDist, num+1, ticketNum);
+                },10000);
+                
+            }catch(err){
+                console.log("went too high perhaps", err);
+            }
+            
+        }
 
-        //------------------------------google maps stuff-------------------
-        // function initAutocomplete() {
-        //     $scope.autocomplete = new google.maps.places.Autocomplete(
-        //         (document.getElementById('autocomplete')),
-        //         {types: ['geocode','establishment']});
+        $scope.simplifyList = function(){
+            var ref = firebase.database().ref("Users");
+            var userData = $firebaseArray(ref);
+            var validUsers = [];
+            var withDist = [];
+            userData.$loaded().then(function(x){
+                console.log("user data loaded");
+                angular.forEach(userData,function(user){
+                    if(amount <= user.wallet && user.uid != $scope.userID && user.available == true){
+                        validUsers.push(user);
+                    }
+                    if(user.uid == $scope.userID){
+                        $scope.mylong = user.longitude;
+                        $scope.mylat = user.latitude;
+                    }
+                });
+                angular.forEach(validUsers, function(valid){
+                    console.log("dist,",$scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
+                    if($scope.mylat && $scope.mylong && valid.latitude && valid.longitude){
+                        var dist = getDistanceFromLatLonInKm($scope.mylat, $scope.mylong, valid.latitude, valid.longitude);
+                        withDist.push({info:valid,distance:dist});
+                    }
+                    
+                });
+                withDist.sort(function(a,b){
+                    return a['distance'] - b['distance'];
+                });
+                console.log("with dist and sort", withDist);
+                var ticket = {
+                    amount: requested,
+                    isOpen: true,
+                    requestID: myUser.getData().uid,
+                    requestPhoto: myUser.getData().photoURL
+                };
+                firebase.database().ref('ticket').push(ticket).then(function(x){
+                    console.log("ticket made",x);
+                    sendNotifies(withDist, 0, x.key);
+                });
+                
+                $timeout(function(){
+                    $scope.cancelButtonShow = true;
+                },15000);
+            });
+        };
 
-        //     container = document.getElementsByClassName('pac-container');
-        //     // disable ionic data tab
-        //     angular.element(container).attr('data-tap-disabled', 'true');
-        //     // leave input field if google-address-entry is selected
-        //     angular.element(container).on("click", function(){
-        //         document.getElementById('searchBar').blur();
-        //     });
-
-        //     $scope.autocomplete.addListener('place_changed', fillInAddress);
-        // }
-
-        // function fillInAddress() {
-        //     var place = $scope.autocomplete.getPlace();
-
-        //     console.log('place', $scope.autocomplete, place);
-        //     $scope.user.meetUpAddress = place.formatted_address;
-        //     document.getElementById('autocomplete').value = $scope.user.meetUpAddress;
-        //     var addr = place.formatted_address;
-        //     addr = addr.replace(/,/g,'');
-        //     addr = addr.replace(/ /g,'+');
-
-
-        //     var url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ 
-        //                 addr +
-        //                 "&key=AIzaSyCxi6Eah3dgixKG8oFO8DB6sMVN1v3mxuQ";
-
-        //     $http.get(url).then(function(response){
-        //         console.log("SHATTY GOOGLE MAPS", response);
-
-        //         var lat = response.data.results[0].geometry.location.lat;
-        //         var long = response.data.results[0].geometry.location.lng;
-
-        //         $scope.action.location = lat + ', ' + long;
-        //     },function(err){
-        //         console.log("Problem is probably CORS", err);
-        //     });
-        // }
-
-        // container = document.getElementsByClassName('pac-container');
-        // // disable ionic data tab
-        // angular.element(container).attr('data-tap-disabled', 'true');
-        // // leave input field if google-address-entry is selected
-        // angular.element(container).on("click", function(){
-        //     document.getElementById('searchBar').blur();
-        // });
-
-        // $scope.geolocate = function($event) {
-        //     console.log("event,", $event);
-        //     $event.target.select();
-        //     google.maps.event.addDomListener(window, 'load', initAutocomplete);
-        //     initAutocomplete();
-
-        //   if (navigator.geolocation) {
-        //     navigator.geolocation.getCurrentPosition(function(position) {
-        //       var geolocation = {
-        //         lat: position.coords.latitude,
-        //         lng: position.coords.longitude
-        //       };
-        //       //console.log("long lat", lng, lat);
-        //       var circle = new google.maps.Circle({
-        //         center: geolocation,
-        //         radius: position.coords.accuracy
-        //       });
-        //       $scope.autocomplete.setBounds(circle.getBounds());
-        //     });
-        //   }
-        // };
+        //cancel the request
+        $scope.cancelRequest = function(){
+            $state.go('wallet');
+        }
 
     }]);

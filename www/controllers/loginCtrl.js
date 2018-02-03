@@ -23,7 +23,8 @@ app.controller('loginCtrl', ['$scope','$state','$http','$timeout',
   				uid: user.uid,
   				email: user.email,
           userCreated: firebase.database.ServerValue.TIMESTAMP,
-          rating: 5
+          rating: 5,
+          photoURL: "/img/default-avatar.png"
   			};
   			firebase.database().ref('Users').child(user.uid).update(userobj).then(function(x){
   				console.log("loginCtrl.js - created a new user");
