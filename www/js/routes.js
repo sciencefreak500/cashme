@@ -61,6 +61,13 @@ angular.module('app.routes', ['ui.router'])
         url: '/mapPage',
           templateUrl: 'templates/map.html',
           controller: 'mapCtrl'
+      })
+
+      .state('newCard', {
+        name: 'newCard',
+        url: '/newCard',
+          templateUrl: 'templates/newCard.html',
+          controller: 'newCardCtrl'
       });
 
 

@@ -1,5 +1,5 @@
 <ion-view title="settings">
-    <ion-content scroll="false">
+    <ion-content >
 
         <!-- Header Logo -->
         <div class="titleStyle">
@@ -10,7 +10,7 @@
         <div style="display: block; text-align: center;">
             <img class="profileImg" ng-src="{{user.photoURL}}" ng-click="getImage()">
         </div>
-        
+
         <!-- Sign Out Button -->
         <button class="button button-clear cashme-sign-out-button" ng-click="signOut()">
             Sign Out
@@ -20,7 +20,6 @@
             <p>My Rating: {{userRating}}</p>
         </div>
         
-
         <div class="container">
             <!-- <h1 ui-sref="finalConfirmation">Setting page</h1> -->
 
@@ -31,7 +30,21 @@
             <br>
             <button class="button button-block cashme-button" ng-click="saveInfo()">Save</button>
         </div>
-        
+
+
+        <ion-list>
+          <span class="input-label cashme-setting-input-label">Your Cards</span>
+          <ion-item ng-repeat="paymentMethod in customer.paymentMethods">
+            {{paymentMethod.cardType}} ending in {{paymentMethod.last4}} expiring in {{paymentMethod.expirationDate}}
+          </ion-item>
+
+        </ion-list>
+
+
+
+        <button class="button button-block cashme-button" ng-click="addNewCard()">Add New Card</button>
+
+
     </ion-content>
 
 </ion-view>

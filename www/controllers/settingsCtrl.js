@@ -2,7 +2,10 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
 
   function ($scope, $state,$http,$timeout) {
 
+    $scope.showDropin = false;
+
     $scope.$on('$ionicView.beforeEnter', function() {
+
       $scope.userRating = "";
       firebase.auth().onAuthStateChanged(function(user){
         userRef = firebase.database().ref('Users/'+user.uid);
@@ -45,10 +48,41 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
   	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
 	    $scope.userID = user.uid;
-	    $scope.user = {displayName: user.displayName, photoURL: user.photoURL};
+	    $scope.user = {displayName: user.displayName, photoURL: user.photoURL, email: user.email};
+      console.log("user", $scope.user);
+      $scope.getCards();
 	    $timeout(function(){$scope.$apply();});
+
 	  }
 	});
+
+
+  //------------------------------------------BRAINTREE SECTION ------------------------------------------
+
+$scope.addNewCard = function() {
+  $state.go('newCard');
+}
+//
+// getClientToken();
+
+
+$scope.getCards = function () {
+  console.log($scope.userID);
+  $http({
+    method: 'POST',
+    url: "http://localhost:3000/customer_info",
+    data: {
+      "customer_id": $scope.userID
+    }
+  }).then(function(res){
+    $scope.customer = res.data;
+    console.log("customer", $scope.customer);
+  })
+}
+
+
+// ----------------------- END OF BRAINTREE SECTION -----------------------------------------------------
+
 
 
 	function b64toBlob(b64Data, contentType, sliceSize) {
@@ -127,7 +161,7 @@ app.controller('settingsCtrl', ['$scope','$state','$http','$timeout',
   			$state.go('login');
   		});
 		};
-		
+
 	}
 
 ]);
