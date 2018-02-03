@@ -13,9 +13,13 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
           $scope.myRating = snap.val().rating;
           $scope.money.wallet = snap.val().wallet;
           $scope.money.request = snap.val().request;
+          $scope.money.isAvailable = snap.val().available;
           userMoney.setRequest(snap.val().request);
           userMoney.setWallet(snap.val().wallet);
-          firebase.database().ref("Users").child($scope.userID).update({available: true});
+          if(!(snap.val().available)){
+             firebase.database().ref("Users").child($scope.userID).update({available: false});
+          }
+
         });
 
         $timeout(function(){$scope.$apply();});
@@ -34,13 +38,18 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
           longitude: position.coords.longitude,
           latitude: position.coords.latitude});
       });
-        firebase.database().ref("Users").child($scope.userID).update({available: true});
     });
+
+
+    $scope.toggleAvailable = function(){
+      console.log("available", $scope.money.isAvailable);
+      firebase.database().ref("Users").child($scope.userID).update({available: $scope.money.isAvailable});
+    };
 
 
     $scope.$on('$ionicView.beforeEnter', function () {
 
-      $scope.notification = {
+      /*$scope.notification = {
         amount: "10",
         body: "Time to make money! Someone near you needs cash!",
         displayName:"Mason man",
@@ -78,12 +87,18 @@ app.controller('walletCtrl', ['$scope','$state','$http','userMoney','$timeout','
               navigator.geolocation.getCurrentPosition(function(position){
               firebase.database().ref("Users").child($scope.userID).update({
                 longitude: position.coords.longitude,
-                latitude: position.coords.latitude});
+                latitude: position.coords.latitude
+                });
               });
             }
           }]
+<<<<<<< HEAD
       });
 
+=======
+      });*/
+
+>>>>>>> 4379cf9740879fd5bf7403eff3786c0959acd64f
       window.FirebasePlugin.grantPermission();
       window.FirebasePlugin.onNotificationOpen(function(notification) {
         console.log(notification);
