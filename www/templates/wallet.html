@@ -32,7 +32,7 @@
         <label class="item item-input item-floating-label">
             <span class="input-label cashme-wallet-input-label">My wallet</span>
             <input name="wallet" ng-change="setMyWallet()" ng-model="money.wallet"
-                  type="text" placeholder="How much do you have in your wallet?"
+                  type="number" placeholder="How much do you have in your wallet?"
                   min="5" step="1" max="500">
         </label>
       </div>
@@ -43,7 +43,7 @@
         <label class="item item-input item-floating-label">
             <span class="input-label cashme-wallet-input-label">My request</span>
             <input name="request" ng-change="setMyRequest()" ng-model="money.request"
-                  type="text" placeholder="How much do you want to request?"
+                  type="number" placeholder="How much do you want to request?"
                   min="5" step="1" max="500">
         </label>
       </div>

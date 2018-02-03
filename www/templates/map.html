@@ -10,15 +10,35 @@
         <div style="margin-bottom: 1vh;">
             <label class="item item-input item-floating-label">
                 <span class="input-label cashme-map-input-label">Meet up at</span>
-                <input type="text" name="user.meetUpAddress" 
-                        data-ng-model="user.meetUpAddress"
+                <div id="pac-container">
+                    <!-- <input id="autocomplete" type="text" placeholder="Location" ng-value="user.meetUpAddress" ng-click="geolocate($event)"/> -->
+                     <input type="text" name="user.meetUpAddress" id="autocomplete"
+                        data-ng-model="user.meetUpAddress" ng-value="user.meetUpAddress" ng-click="geolocate($event)"
                         placeholder="Where do you want to meet up?"
                         style="font-size: 3.4vw; text-overflow: ellipsis;">
+                </div>     
+           
             </label>
         </div>
 
         <!-- Map -->
         <div id="map" data-tap-disabled="true"></div>
+
+        <!-- Save Button -->
+        <div class="confirm-container">
+            <button class="button button-block cashme-confirm-address-button" ng-click="sendMeetUpAddress()"
+                 ng-if="!isLooking">
+                Confirm
+            </button>
+        </div>
+
+        <div class="cash-me-searching-container" ng-if="isLooking">
+            <p class="cashme-p-tag">Looking for you personal ATM...</p>
+            <button class="button button-block button-assertive cashme-cancel-looking-button" ng-click="cancelSendMeetUpAddress()"
+                    ng-if="isLooking">
+                Cancel
+            </button>
+        </div>
 
     </ion-content>
 </ion-view>

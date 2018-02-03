@@ -177,7 +177,7 @@ input[type="text"]{
     letter-spacing: 1.5px;
 }
 
-input[type="text"]{ 
+input[type="number"]{ 
     font-family: "Usual-Thin", "Usual", sans-serif;
     font-size: 7vw;
     font-weight: bolder;
@@ -190,7 +190,7 @@ input[type="text"]{
     margin: 0 auto;
 }
 
-input[type="text"]::placeholder{
+input[type="number"]::placeholder{
     font-family: "Usual-Thin", "Usual", sans-serif;
     font-size: 2vw;
     white-space:pre-line;  
@@ -270,6 +270,48 @@ input[type="text"]::placeholder{
     z-index: -50;
 }
 
+.confirm-container{
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+}
+
+.cashme-confirm-address-button{
+    margin: auto;
+    width: 50% !important;
+    background-color: #9CCC65;
+    color: white;
+    box-shadow: 5px 7px 8px -2px #888888;
+}
+
+.cash-me-searching-container{
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.cashme-p-tag{
+    font-family: "Usual-Thin", "Usual", sans-serif;
+    font-size: 9vw;
+    color: #9CCC65;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    line-height: 8vh;
+    top: 36vh;
+    position: absolute;
+}
+
+.cashme-cancel-looking-button{
+    margin: auto;
+    width: 50% !important;
+    position: relative;
+    top: 55vh;
+}
 
 /*---------------- RESPONSIVE STUFF ----------------------*/
 @media all and (max-width: 412px){

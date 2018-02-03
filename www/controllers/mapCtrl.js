@@ -1,10 +1,10 @@
-app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$compile',
-	function ($scope, $state, $ionicLoading, $timeout, $compile) {
+app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$compile','$http',
+	function ($scope, $state, $ionicLoading, $timeout, $compile,$http) {
         
         //variables
-        $scope.user ={}
+        $scope.user ={};
         $scope.user.meetUpAddress = "";
-
+        $scope.isLooking = false;
         firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
                 $scope.userID = user.uid;
@@ -15,7 +15,9 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
 
         var options = {timeout: 10000, enableHighAccuracy: true};
 
+
         $scope.$on('$ionicView.beforeEnter', function (){
+
             //getting current user's locations
             navigator.geolocation.getCurrentPosition(function(position){
             
@@ -23,12 +25,13 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
 
                 var mapOptions = {
                     center: latLng,
-                    zoom: 15,
+                    zoom: 17,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
             
                 $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
                 
+
                 //current user's image on map
                 var image = {
                     url: $scope.user.photoURL,
@@ -43,7 +46,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                 var shape = {
                     coords: [1, 1, 1, 20, 18, 20, 18, 1],
                     type: 'circle'
-                  };
+                };
     
                 //make map maker on the map
                 var marker = new google.maps.Marker({
@@ -57,8 +60,8 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                     class: "user-pic"
                 });
     
-                var geocoder = new google.maps.Geocoder;
-                var infowindow = new google.maps.InfoWindow;
+                var geocoder = new google.maps.Geocoder();
+                var infowindow = new google.maps.InfoWindow();
 
                 //recenter the map
                 $scope.map.addListener('center_changed', function() {
@@ -79,10 +82,40 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                 //draw user and other user pictures on map
                 new CustomUserPictureOverLay(latLng, $scope.user.photoURL, $scope.map);
 
+
+                //autocomplete places 
+                var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),{componentRestrictions: {country: 'us'}});
+                autocomplete.bindTo('bounds', $scope.map);
+               
+                autocomplete.addListener('place_changed', function() {
+                    infowindow.close();
+                    marker.setVisible(false);
+                    var place = autocomplete.getPlace();
+                    
+                    if (place.geometry.viewport) {
+                        $scope.map.fitBounds(place.geometry.viewport);
+                    } else {
+                        $scope.map.setCenter(place.geometry.location);
+                        $scope.map.setZoom(17);  // Why 17? Because it looks good.
+                    }
+                    marker.setPosition(place.geometry.location);
+                    marker.setVisible(true);
+                    getAddress(geocoder, $scope.map, infowindow, place.geometry.location, marker);
+
+                });
+
             }, function(error){
                console.log("mapCrtl - Could not get location", error);
             });
         });
+
+        $scope.sendMeetUpAddress = function(){
+            $scope.isLooking = true;
+        };
+
+        $scope.cancelSendMeetUpAddress = function(){
+            $scope.isLooking = false;
+        }
 
         CustomUserPictureOverLay.prototype = new google.maps.OverlayView();
 
@@ -108,7 +141,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                 // Create a overlay text DIV
                 div = this.div_ = document.createElement('div');
                 // Create the DIV representing our CustomMarker
-                div.className = "customMarker"
+                div.className = "customMarker";
         
         
                 var img = document.createElement("img");
@@ -152,6 +185,7 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
 
         //getting current address 
         function getAddress(geocoder, map, infowindow, latLng, marker){
+            $scope.user.meetUpAddress= "";
             geocoder.geocode(
                 { 'latLng': latLng },
                 function( results, status ) {
@@ -159,13 +193,14 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                         if(results[0]){
                             console.log("mapCtrl - current address: ", results[0].formatted_address );
                             $scope.user.meetUpAddress = results[0].formatted_address;
-                            var contentString = '<div ng-click="getDirection(user.meetUpAddress)">'
-                                                +results[0].formatted_address
-                                                +'</div>';
-                            var compiled = $compile(contentString)($scope)
+                            document.getElementById("autocomplete").value = $scope.user.meetUpAddress;
+                            var contentString = '<div ng-click="getDirection(user.meetUpAddress)">'+ 
+                                                results[0].formatted_address +
+                                                '</div>';
+                            var compiled = $compile(contentString)($scope);
                             infowindow.setContent(compiled[0]);
                             infowindow.open(map, marker);
-                            $scope.$apply();
+                            $timeout(function(){$scope.$apply();});
                         }else{
                             alert('No results found');
                         }
@@ -189,5 +224,96 @@ app.controller('mapCtrl', ['$scope', '$state', '$ionicLoading', '$timeout', '$co
                 console.log("The loading indicator is now hidden");
             });
         }
+
+        // $scope.geolocate = function($event){
+        //      // $event.target.select();
+
+        //     // var card = document.getElementById('pac-card');
+        //     // var input = document.getElementById('pac-input');
+        //     // var autocomplete = new google.maps.places.Autocomplete(input);
+        //     console.log("geolocate clicked");
+        //     var marker = new google.maps.Marker({
+        //         map: map,
+        //         anchorPoint: new google.maps.Point(0, -29)
+        //     });
+        // };
+
+        // var autocomplete = new google.maps.places.Autocomplete(
+        //         (document.getElementById('autocomplete')),
+        //         {types: ['geocode','establishment']});
+
+        //------------------------------google maps stuff-------------------
+        // function initAutocomplete() {
+        //     $scope.autocomplete = new google.maps.places.Autocomplete(
+        //         (document.getElementById('autocomplete')),
+        //         {types: ['geocode','establishment']});
+
+        //     container = document.getElementsByClassName('pac-container');
+        //     // disable ionic data tab
+        //     angular.element(container).attr('data-tap-disabled', 'true');
+        //     // leave input field if google-address-entry is selected
+        //     angular.element(container).on("click", function(){
+        //         document.getElementById('searchBar').blur();
+        //     });
+
+        //     $scope.autocomplete.addListener('place_changed', fillInAddress);
+        // }
+
+        // function fillInAddress() {
+        //     var place = $scope.autocomplete.getPlace();
+
+        //     console.log('place', $scope.autocomplete, place);
+        //     $scope.user.meetUpAddress = place.formatted_address;
+        //     document.getElementById('autocomplete').value = $scope.user.meetUpAddress;
+        //     var addr = place.formatted_address;
+        //     addr = addr.replace(/,/g,'');
+        //     addr = addr.replace(/ /g,'+');
+
+
+        //     var url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ 
+        //                 addr +
+        //                 "&key=AIzaSyCxi6Eah3dgixKG8oFO8DB6sMVN1v3mxuQ";
+
+        //     $http.get(url).then(function(response){
+        //         console.log("SHATTY GOOGLE MAPS", response);
+
+        //         var lat = response.data.results[0].geometry.location.lat;
+        //         var long = response.data.results[0].geometry.location.lng;
+
+        //         $scope.action.location = lat + ', ' + long;
+        //     },function(err){
+        //         console.log("Problem is probably CORS", err);
+        //     });
+        // }
+
+        // container = document.getElementsByClassName('pac-container');
+        // // disable ionic data tab
+        // angular.element(container).attr('data-tap-disabled', 'true');
+        // // leave input field if google-address-entry is selected
+        // angular.element(container).on("click", function(){
+        //     document.getElementById('searchBar').blur();
+        // });
+
+        // $scope.geolocate = function($event) {
+        //     console.log("event,", $event);
+        //     $event.target.select();
+        //     google.maps.event.addDomListener(window, 'load', initAutocomplete);
+        //     initAutocomplete();
+
+        //   if (navigator.geolocation) {
+        //     navigator.geolocation.getCurrentPosition(function(position) {
+        //       var geolocation = {
+        //         lat: position.coords.latitude,
+        //         lng: position.coords.longitude
+        //       };
+        //       //console.log("long lat", lng, lat);
+        //       var circle = new google.maps.Circle({
+        //         center: geolocation,
+        //         radius: position.coords.accuracy
+        //       });
+        //       $scope.autocomplete.setBounds(circle.getBounds());
+        //     });
+        //   }
+        // };
 
     }]);
